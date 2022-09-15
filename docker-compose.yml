@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  courseschedule.api:
+    image: ${DOCKER_REGISTRY-}coursescheduleapi
+    build:
+      context: .
+      dockerfile: CourseSchedule.API/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+      - "8081:443"
+  db:
+    container_name: db
+    image: cockroachdb/cockroach:latest
+    volumes:
+      - ./.db:/cockroach/cockroach-data
+    command: start-single-node --insecure
+    ports:
+      - "26257:26257"
+      - "9080:8080"
