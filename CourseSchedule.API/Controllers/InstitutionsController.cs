@@ -18,15 +18,15 @@ namespace CourseSchedule.API.Controllers
         }
 
         [HttpPost]
-        public Institutions Create(string Name)
+        public IActionResult Create(string Name)
         {
-            return _logic.Create(Name);
+            return Ok(_logic.Create(Name));
         }
 
         [HttpGet]
-        public List<Institutions> Get()
+        public IActionResult Get()
         {
-            return _logic.Get();
+            return Ok(_logic.Get());
         }
     }
 }

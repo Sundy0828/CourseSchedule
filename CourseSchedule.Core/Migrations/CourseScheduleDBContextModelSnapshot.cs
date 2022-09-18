@@ -22,53 +22,66 @@ namespace CourseSchedule.Core.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CourseSchedule.Core.DBModel.Disciplines", b =>
+            modelBuilder.Entity("CourseSchedule.Core.DBModel.Discipline", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("DisciplineId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created");
+
+                    b.Property<Guid>("InstitutionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("institution_id");
 
                     b.Property<bool>("IsMajor")
                         .HasColumnType("boolean")
                         .HasColumnName("is_major");
 
                     b.Property<DateTime>("Modified")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
                         .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("DisciplineId");
 
                     b.ToTable("disciplines");
                 });
 
-            modelBuilder.Entity("CourseSchedule.Core.DBModel.Institutions", b =>
+            modelBuilder.Entity("CourseSchedule.Core.DBModel.Institution", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("InstitutionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created");
 
+                    b.Property<Guid>("DisciplineId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("Modified")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("modified");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
                         .HasColumnName("name");
 
                     b.Property<Guid>("PublicKey")
@@ -79,9 +92,27 @@ namespace CourseSchedule.Core.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("secret_key");
 
-                    b.HasKey("Id");
+                    b.HasKey("InstitutionId");
+
+                    b.HasIndex("DisciplineId");
 
                     b.ToTable("institutions");
+                });
+
+            modelBuilder.Entity("CourseSchedule.Core.DBModel.Institution", b =>
+                {
+                    b.HasOne("CourseSchedule.Core.DBModel.Discipline", "Discipline")
+                        .WithMany("Institutions")
+                        .HasForeignKey("DisciplineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Discipline");
+                });
+
+            modelBuilder.Entity("CourseSchedule.Core.DBModel.Discipline", b =>
+                {
+                    b.Navigation("Institutions");
                 });
 #pragma warning restore 612, 618
         }

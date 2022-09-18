@@ -9,23 +9,31 @@ using System.Threading.Tasks;
 namespace CourseSchedule.Core.DBModel
 {
     [Table("institutions")]
-    public class Institutions : CourseScheduleEntity
+    public class Institution : CourseScheduleEntity
     {
-        public Institutions()
+        public Institution()
         {
-            Id = Guid.NewGuid();
-            PublicKey = Guid.NewGuid();
-            SecretKey = Guid.NewGuid();
+            this.InstitutionId = Guid.NewGuid();
+            this.PublicKey = Guid.NewGuid();
+            this.SecretKey = Guid.NewGuid();
         }
 
         [Key]
+        [Required]
         [Column("id")]
-        public Guid Id { get; set; }
+        public Guid InstitutionId { get; set; }
+        [Required]
         [Column("name")]
+        [Index(IsUnique = true)]
+        [MaxLength(256), MinLength(1)]
         public string Name { get; set; }
+        [Required]
         [Column("public_key")]
         public Guid PublicKey { get; set; }
+        [Required]
         [Column("secret_key")]
         public Guid SecretKey { get; set; }
+
+        public virtual Discipline Discipline { get; set; }
     }
 }

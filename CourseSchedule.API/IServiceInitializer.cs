@@ -1,14 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 
-public interface IServiceInitializer
+namespace CourseSchedule.API
 {
-    void Initialize();
-}
-public static class IServicesExtensions
-{
-    public static IServiceCollection AddServiceInitializer<T>(this IServiceCollection services) where T : IServiceInitializer
+    public interface IServiceInitializer
     {
-        services.TryAddSingleton(typeof(IServiceInitializer), typeof(T));
-        return services;
+        void Initialize();
+    }
+    public static class IServicesExtensions
+    {
+        public static IServiceCollection AddServiceInitializer<T>(this IServiceCollection services) where T : IServiceInitializer
+        {
+            services.TryAddSingleton(typeof(IServiceInitializer), typeof(T));
+            return services;
+        }
     }
 }

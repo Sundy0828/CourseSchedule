@@ -11,6 +11,11 @@ try
     ConfigureServices(builder);
 
     var app = builder.Build();
+    List<IServiceInitializer> serviceInitializers = app.Services.GetServices<IServiceInitializer>().ToList();
+    foreach (var serviceInitializer in serviceInitializers)
+    {
+        serviceInitializer.Initialize();
+    }
     ConfigureApplication(app);
 
     await app.RunAsync();

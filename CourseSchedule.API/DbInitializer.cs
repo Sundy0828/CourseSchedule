@@ -45,7 +45,7 @@ namespace CourseSchedule.API
 
             List<string> files = new()
             {
-                "Instutions.json"
+                "Institutions.json"
             };
 
             for (int i = 0; i < files.Count; i++)
@@ -62,7 +62,7 @@ namespace CourseSchedule.API
                     {
                         case 0: // Instutitions
                             {
-                                Institutions institutions = new()
+                                Institution institutions = new()
                                 {
                                     Name = (string)data["name"]
                                 };
@@ -74,7 +74,7 @@ namespace CourseSchedule.API
                             }
                         case 1:
                             {
-                                Disciplines disciplines = new()
+                                Discipline disciplines = new()
                                 {
                                     Name = (string)data["name"],
                                     IsMajor = (bool)data["is_major"]

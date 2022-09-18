@@ -16,9 +16,9 @@ namespace CourseSchedule.Core
             _context = context;
         }
 
-        public Institutions Create(string name)
+        public Institution Create(string name)
         {
-            Institutions institution = new();
+            Institution institution = new();
             institution.Name = name;
 
             _context.Add(institution);
@@ -27,7 +27,7 @@ namespace CourseSchedule.Core
             return institution;
         }
 
-        public List<Institutions> Get()
+        public List<Institution> Get()
         {
             return _context.Institutions.OrderBy(i => i.Name).ToList();
         }

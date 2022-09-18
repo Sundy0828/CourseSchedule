@@ -27,26 +27,10 @@ namespace CourseSchedule.Core
 
         public override int SaveChanges()
         {
-            var entries = ChangeTracker
-                .Entries()
-                .Where(e => e.Entity is CourseScheduleEntity && (
-                        e.State == EntityState.Added
-                        || e.State == EntityState.Modified));
-
-            foreach (var entityEntry in entries)
-            {
-                ((CourseScheduleEntity)entityEntry.Entity).Modified = DateTime.Now;
-
-                if (entityEntry.State == EntityState.Added)
-                {
-                    ((CourseScheduleEntity)entityEntry.Entity).Created = DateTime.Now;
-                }
-            }
-
             return base.SaveChanges();
         }
 
-        public virtual DbSet<Institutions> Institutions { get; set; }
-        public virtual DbSet<Disciplines> Disciplines { get; set; }
+        public virtual DbSet<Institution> Institutions { get; set; }
+        public virtual DbSet<Discipline> Disciplines { get; set; }
     }
 }

@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseSchedule.Core", "CourseSchedule.Core\CourseSchedule.Core.csproj", "{8808DD38-B319-400D-91B7-55ED3FCA3D2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseSchedule.UnitTests", "CourseSchedule.UnitTests\CourseSchedule.UnitTests.csproj", "{0EABC1A8-FC2B-4053-A129-2CB939BD2ABC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{8808DD38-B319-400D-91B7-55ED3FCA3D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8808DD38-B319-400D-91B7-55ED3FCA3D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8808DD38-B319-400D-91B7-55ED3FCA3D2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EABC1A8-FC2B-4053-A129-2CB939BD2ABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EABC1A8-FC2B-4053-A129-2CB939BD2ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EABC1A8-FC2B-4053-A129-2CB939BD2ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EABC1A8-FC2B-4053-A129-2CB939BD2ABC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
