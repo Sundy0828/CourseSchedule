@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="EntityFramework6.Npgsql" Version="6.4.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.9" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -31,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CourseSchedule.Core\CourseSchedule.Core.csproj" />
+    <ProjectReference Include="..\CourseSchedule.Models\CourseSchedule.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseSchedule.Core", "Cour
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseSchedule.UnitTests", "CourseSchedule.UnitTests\CourseSchedule.UnitTests.csproj", "{0EABC1A8-FC2B-4053-A129-2CB939BD2ABC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseSchedule.Models", "CourseSchedule.Models\CourseSchedule.Models.csproj", "{E07683F4-900F-496D-BB61-E5B33D2A745A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{0EABC1A8-FC2B-4053-A129-2CB939BD2ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EABC1A8-FC2B-4053-A129-2CB939BD2ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EABC1A8-FC2B-4053-A129-2CB939BD2ABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E07683F4-900F-496D-BB61-E5B33D2A745A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E07683F4-900F-496D-BB61-E5B33D2A745A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E07683F4-900F-496D-BB61-E5B33D2A745A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E07683F4-900F-496D-BB61-E5B33D2A745A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

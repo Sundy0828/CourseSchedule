@@ -37,6 +37,12 @@ namespace CourseSchedule.API
 
         public void SeedData(CourseScheduleDBContext context)
         {
+            if (context.Institutions.Count() > 0)
+            {
+                _logger.LogInformation("Databse has already been seeded.");
+                return;
+            }
+
             _logger.LogInformation("Attempting to set directory for seeding data");
 
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory + "SeedingData/");

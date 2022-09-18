@@ -13,18 +13,26 @@ namespace CourseSchedule.Core.DBModel
     {
         public Discipline(string name, bool isMajor)
         {
-            Id = Guid.NewGuid().ToString("D");
+            Id = Guid.NewGuid();
             Name = name;
             IsMajor = isMajor;
 
         }
 
-        public string Id { get; private set; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public bool IsMajor { get; private set; }
 
         // Navigation Properties
         public Guid InstitutionId { get; private set; }
         public Institution Institution { get; private set; }
+
+
+        public void Update(string name, bool isMajor)
+        {
+            // logic to ensure the name is valid
+            Name = name;
+            IsMajor = isMajor;
+        }
     }
 }

@@ -9,11 +9,7 @@ namespace CourseSchedule.Core.DBModel
 {
     public class CourseScheduleEntity
     {
-        [Column("created")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime Created { get; set; }
-        [Column("modified")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime Modified { get; set; }
     }
 }

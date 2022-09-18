@@ -49,7 +49,13 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     builder.Services.AddScoped<InstitutionLogic>();
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers(options =>
+    {
+        options.RespectBrowserAcceptHeader = true;
+    })
+    .AddNewtonsoftJson()
+    .AddXmlDataContractSerializerFormatters();
+
     builder.Services.AddSwaggerGen(c =>
     {
         c.EnableAnnotations();

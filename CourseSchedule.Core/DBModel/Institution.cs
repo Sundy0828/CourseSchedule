@@ -16,36 +16,36 @@ namespace CourseSchedule.Core.DBModel
 
         public Institution(string name)
         {
-            Id = Guid.NewGuid().ToString("D");
+            Id = Guid.NewGuid();
             Name = name;
-            PublicKey = Guid.NewGuid().ToString("D");
-            SecretKey = Guid.NewGuid().ToString("D");
+            PublicKey = Guid.NewGuid();
+            SecretKey = Guid.NewGuid();
 
             disciplines = new HashSet<Discipline>();
         }
 
-        public string Id { get; private set; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public string PublicKey { get; private set; }
-        public string SecretKey { get; private set; }
+        public Guid PublicKey { get; private set; }
+        public Guid SecretKey { get; private set; }
 
         // Navigation Properties
         public IReadOnlyCollection<Discipline> Disciplines => disciplines;
 
-        public void UpdateName(string name)
+        public void Update(string name)
         {
             // logic to ensure the name is valid
             Name = name;
         }
 
-        public void AddBook(Discipline discipline)
+        public void AddDiscipline(Discipline discipline)
         {
             // Some logic to handle whether a book
             // can be added or not
             disciplines.Add(discipline);
         }
 
-        public void RemoveBook(Discipline discipline)
+        public void RemoveDiscipline(Discipline discipline)
         {
             // Logic
             disciplines.Remove(discipline);
