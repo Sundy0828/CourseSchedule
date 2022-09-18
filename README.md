@@ -33,3 +33,12 @@ Database access and migrations are controlled through EF Core. The DbContext cla
 Set Package Manager Console to Core project and start up project to API. Run "Add-Migration InitialCreate".
 
 When making additional updates after the first run, run "Udate-Database" in ht e VS Package Manager Console.
+
+### Common Database Issues
+
+Try running to commands.
+
+```
+./cockroach sql --insecure
+drop database "db" cascade;
+```

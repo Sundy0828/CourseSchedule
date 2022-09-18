@@ -11,28 +11,20 @@ namespace CourseSchedule.Core.DBModel
     [Table("disciplines")]
     public class Discipline : CourseScheduleEntity
     {
-        public Discipline()
+        public Discipline(string name, bool isMajor)
         {
-            this.DisciplineId = Guid.NewGuid();
-            this.Institutions = new HashSet<Institution>();
+            Id = Guid.NewGuid().ToString("D");
+            Name = name;
+            IsMajor = isMajor;
+
         }
 
-        [Key]
-        [Required]
-        [Column("id")]
-        public Guid DisciplineId { get; set; }
-        [Required]
-        [ForeignKey("Institution")]
-        [Column("institution_id")]
-        public Guid InstitutionId { get; set; }
-        [Required]
-        [Column("name")]
-        [MaxLength(256), MinLength(1)]
-        public string Name { get; set; }
-        [Required]
-        [Column("is_major")]
-        public bool IsMajor { get; set; }
+        public string Id { get; private set; }
+        public string Name { get; private set; }
+        public bool IsMajor { get; private set; }
 
-        public virtual ICollection<Institution> Institutions { get; set; }
+        // Navigation Properties
+        public Guid InstitutionId { get; private set; }
+        public Institution Institution { get; private set; }
     }
 }

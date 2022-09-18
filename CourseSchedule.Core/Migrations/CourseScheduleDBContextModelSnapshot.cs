@@ -24,10 +24,8 @@ namespace CourseSchedule.Core.Migrations
 
             modelBuilder.Entity("CourseSchedule.Core.DBModel.Discipline", b =>
                 {
-                    b.Property<Guid>("DisciplineId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
@@ -35,12 +33,13 @@ namespace CourseSchedule.Core.Migrations
                         .HasColumnName("created");
 
                     b.Property<Guid>("InstitutionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("institution_id");
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("InstitutionId1")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsMajor")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_major");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime>("Modified")
                         .ValueGeneratedOnAddOrUpdate()
@@ -49,29 +48,24 @@ namespace CourseSchedule.Core.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("name");
+                        .HasColumnType("text");
 
-                    b.HasKey("DisciplineId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstitutionId1");
 
                     b.ToTable("disciplines");
                 });
 
             modelBuilder.Entity("CourseSchedule.Core.DBModel.Institution", b =>
                 {
-                    b.Property<Guid>("InstitutionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created");
-
-                    b.Property<Guid>("DisciplineId")
-                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("Modified")
                         .ValueGeneratedOnAddOrUpdate()
@@ -80,39 +74,31 @@ namespace CourseSchedule.Core.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("name");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("PublicKey")
-                        .HasColumnType("uuid")
-                        .HasColumnName("public_key");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("SecretKey")
-                        .HasColumnType("uuid")
-                        .HasColumnName("secret_key");
+                        .HasColumnType("uuid");
 
-                    b.HasKey("InstitutionId");
-
-                    b.HasIndex("DisciplineId");
+                    b.HasKey("Id");
 
                     b.ToTable("institutions");
                 });
 
-            modelBuilder.Entity("CourseSchedule.Core.DBModel.Institution", b =>
-                {
-                    b.HasOne("CourseSchedule.Core.DBModel.Discipline", "Discipline")
-                        .WithMany("Institutions")
-                        .HasForeignKey("DisciplineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Discipline");
-                });
-
             modelBuilder.Entity("CourseSchedule.Core.DBModel.Discipline", b =>
                 {
-                    b.Navigation("Institutions");
+                    b.HasOne("CourseSchedule.Core.DBModel.Institution", "Institution")
+                        .WithMany("Disciplines")
+                        .HasForeignKey("InstitutionId1");
+
+                    b.Navigation("Institution");
+                });
+
+            modelBuilder.Entity("CourseSchedule.Core.DBModel.Institution", b =>
+                {
+                    b.Navigation("Disciplines");
                 });
 #pragma warning restore 612, 618
         }

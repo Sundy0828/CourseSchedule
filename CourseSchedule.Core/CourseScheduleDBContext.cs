@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CourseSchedule.Core.DBModel;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace CourseSchedule.Core
 {
@@ -22,11 +23,26 @@ namespace CourseSchedule.Core
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
         }
 
         public override int SaveChanges()
         {
+            IEnumerable<EntityEntry> entries = ChangeTracker
+                .Entries()
+                .Where(e => e.Entity is CourseScheduleEntity && (
+                        e.State == EntityState.Added
+                        || e.State == EntityState.Modified));
+
+            foreach (EntityEntry entry in entries)
+            {
+                ((CourseScheduleEntity)entry.Entity).Modified = DateTime.Now;
+
+                if (entry.State == EntityState.Added)
+                {
+                    ((CourseScheduleEntity)entry.Entity).Created = DateTime.Now;
+                }
+            }
+
             return base.SaveChanges();
         }
 

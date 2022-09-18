@@ -18,8 +18,7 @@ namespace CourseSchedule.Core
 
         public Institution Create(string name)
         {
-            Institution institution = new();
-            institution.Name = name;
+            Institution institution = new(name);
 
             _context.Add(institution);
             _context.SaveChanges();

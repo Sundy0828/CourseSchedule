@@ -11,6 +11,7 @@ try
     ConfigureServices(builder);
 
     var app = builder.Build();
+    AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     List<IServiceInitializer> serviceInitializers = app.Services.GetServices<IServiceInitializer>().ToList();
     foreach (var serviceInitializer in serviceInitializers)
     {

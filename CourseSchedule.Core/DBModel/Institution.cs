@@ -5,35 +5,50 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace CourseSchedule.Core.DBModel
 {
     [Table("institutions")]
     public class Institution : CourseScheduleEntity
     {
-        public Institution()
+        private readonly HashSet<Discipline> disciplines;
+
+        public Institution(string name)
         {
-            this.InstitutionId = Guid.NewGuid();
-            this.PublicKey = Guid.NewGuid();
-            this.SecretKey = Guid.NewGuid();
+            Id = Guid.NewGuid().ToString("D");
+            Name = name;
+            PublicKey = Guid.NewGuid().ToString("D");
+            SecretKey = Guid.NewGuid().ToString("D");
+
+            disciplines = new HashSet<Discipline>();
         }
 
-        [Key]
-        [Required]
-        [Column("id")]
-        public Guid InstitutionId { get; set; }
-        [Required]
-        [Column("name")]
-        [Index(IsUnique = true)]
-        [MaxLength(256), MinLength(1)]
-        public string Name { get; set; }
-        [Required]
-        [Column("public_key")]
-        public Guid PublicKey { get; set; }
-        [Required]
-        [Column("secret_key")]
-        public Guid SecretKey { get; set; }
+        public string Id { get; private set; }
+        public string Name { get; private set; }
+        public string PublicKey { get; private set; }
+        public string SecretKey { get; private set; }
 
-        public virtual Discipline Discipline { get; set; }
+        // Navigation Properties
+        public IReadOnlyCollection<Discipline> Disciplines => disciplines;
+
+        public void UpdateName(string name)
+        {
+            // logic to ensure the name is valid
+            Name = name;
+        }
+
+        public void AddBook(Discipline discipline)
+        {
+            // Some logic to handle whether a book
+            // can be added or not
+            disciplines.Add(discipline);
+        }
+
+        public void RemoveBook(Discipline discipline)
+        {
+            // Logic
+            disciplines.Remove(discipline);
+        }
     }
 }
