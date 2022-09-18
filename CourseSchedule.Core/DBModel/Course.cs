@@ -1,40 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace CourseSchedule.Core.DBModel
 {
-    [Table("institutions")]
-    public class Institution : CourseScheduleEntity
+    [Table("courses")]
+    public class Course : CourseScheduleEntity
     {
         private readonly HashSet<Discipline> disciplines;
+        private readonly HashSet<Combination> combinations; 
         private readonly HashSet<Semester> semesters;
         private readonly HashSet<Year> years;
 
-        public Institution(string name)
+        public Course(Guid disciplineId, Guid combinationId, Guid semesterId, Guid yearId, string name, int credits, string courseCode)
         {
             Id = Guid.NewGuid();
             Name = name;
-            PublicKey = Guid.NewGuid();
-            SecretKey = Guid.NewGuid();
+            CourseCode = courseCode;
+            Credits = credits;
+
+            DisciplineId = disciplineId;
+            CombinationId = combinationId;
+            SemesterId = semesterId;
 
             disciplines = new HashSet<Discipline>();
+            combinations = new HashSet<Combination>();
             semesters = new HashSet<Semester>();
             years = new HashSet<Year>();
         }
 
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public Guid PublicKey { get; private set; }
-        public Guid SecretKey { get; private set; }
+        public int Credits { get; private set; }
+        public string CourseCode { get; private set; }
 
         // Navigation Properties
+        public Guid DisciplineId { get; private set; }
+        public Discipline Discipline { get; private set; }
+        public Guid CombinationId { get; private set; }
+        public Discipline Combination { get; private set; }
+        public Guid SemesterId { get; private set; }
+        public Semester Semester { get; private set; }
+        public Guid YearId { get; private set; }
+        public Year Year { get; private set; }
         public IReadOnlyCollection<Discipline> Disciplines => disciplines;
+        public IReadOnlyCollection<Combination> Combinations => combinations;
         public IReadOnlyCollection<Semester> Semesters => semesters;
         public IReadOnlyCollection<Year> Years => years;
 
@@ -57,6 +70,19 @@ namespace CourseSchedule.Core.DBModel
             disciplines.Remove(discipline);
         }
 
+        public void AddCombination(Combination combination)
+        {
+            // Some logic to handle whether a book
+            // can be added or not
+            combinations.Add(combination);
+        }
+
+        public void RemoveCombination(Combination combination)
+        {
+            // Logic
+            combinations.Remove(combination);
+        }
+
         public void AddSemester(Semester semester)
         {
             // Some logic to handle whether a book
@@ -69,7 +95,6 @@ namespace CourseSchedule.Core.DBModel
             // Logic
             semesters.Remove(semester);
         }
-
 
         public void AddYear(Year year)
         {

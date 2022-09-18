@@ -54,35 +54,41 @@ namespace CourseSchedule.API
                 "Institutions.json"
             };
 
-            for (int i = 0; i < files.Count; i++)
+            Dictionary<Guid, Institution> institutions = new();
+
+            for (int file = 0; file < files.Count; file++)
             {
-                string text = File.ReadAllText(files[i]);
+                string text = File.ReadAllText(files[file]);
                 Dictionary<string, object> deserializedInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(text);
                 JArray infoList = (JArray)deserializedInfo["data"];
 
-                _logger.LogInformation("Attempting to add the data for {files}.", files[i]);
+                _logger.LogInformation("Attempting to add the data for {files}.", files[file]);
 
                 foreach (JObject data in infoList)
                 {
-                    switch (i)
+                    switch (file)
                     {
                         case 0: // Instutitions
                             {
-                                Institution institutions = new(
-                                    (string)data["name"]
+                                Institution i = new(
+                                    (string)data["Name"]
                                 );
 
-                                context.Add(institutions);
+                                institutions[i.Id] = i;
+                                context.Add(i);
                                 context.SaveChanges();
 
                                 break;
                             }
                         case 1:
                             {
+                                Institution institution = context.Institutions.Where(i => i.Name == data["InstitutionName"].ToString()).FirstOrDefault();
                                 Discipline disciplines = new
                                 (
-                                    (string)data["name"],
-                                    (bool)data["is_major"]
+                                    institution.Id,
+                                    (string)data["MajorCode"],
+                                    (string)data["Name"],
+                                    (bool)data["IsMajor"]
                                 );
 
                                 context.Add(disciplines);

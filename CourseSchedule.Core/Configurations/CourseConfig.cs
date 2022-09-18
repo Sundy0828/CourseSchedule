@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CourseSchedule.Core.Configurations
 {
-    public class InstitutionConfig : IEntityTypeConfiguration<Institution>
+    public class CourseConfig : IEntityTypeConfiguration<Course>
     {
-        public void Configure(EntityTypeBuilder<Institution> builder)
+        public void Configure(EntityTypeBuilder<Course> builder)
         {
-            builder.ToTable("Institutions"); // Not required, but I like to explicitly state the table name
+            builder.ToTable("Courses"); // Not required, but I like to explicitly state the table name
 
             builder.HasKey("Id") // Tell EF to find the field called "Id" and use it as primary key
-                .HasName("PK_Institutions"); // Primary key object name in the database (NOT column name)
+                .HasName("PK_Courses"); // Primary key object name in the database (NOT column name)
 
             builder.Property(i => i.Name)
                 .HasMaxLength(250) // setting max length can provide huge performance gains
@@ -24,15 +24,15 @@ namespace CourseSchedule.Core.Configurations
 
             // Tell EF to find the navigation property and use this for the Disciplines collection
             builder.Metadata
-                .FindNavigation(nameof(Institution.Disciplines))
+                .FindNavigation(nameof(Course.Disciplines))
                 // Convention based -> will find field named "Disciplines"
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
             builder.Metadata
-                .FindNavigation(nameof(Institution.Semesters))
+                .FindNavigation(nameof(Course.Semesters))
                 // Convention based -> will find field named "Semesters"
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
             builder.Metadata
-                .FindNavigation(nameof(Institution.Years))
+                .FindNavigation(nameof(Course.Years))
                 // Convention based -> will find field named "Years"
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
         }

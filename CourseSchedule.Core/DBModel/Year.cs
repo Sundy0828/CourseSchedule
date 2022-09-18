@@ -1,33 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseSchedule.Core.DBModel
 {
-    [Table("disciplines")]
-    public class Discipline : CourseScheduleEntity
+    public class Year : CourseScheduleEntity
     {
         private readonly HashSet<Course> courses;
-        public Discipline(Guid institutionId, string name, string majorCode, bool isMajor)
+
+        public Year(Guid institutionId, string name)
         {
             Id = Guid.NewGuid();
             Name = name;
-            MajorCode = majorCode;
-            IsMajor = isMajor;
-
             InstitutionId = institutionId;
 
             courses = new HashSet<Course>();
         }
+        
 
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public string MajorCode { get; private set; }
-        public bool IsMajor { get; private set; }
+
 
         // Navigation Properties
         public Guid InstitutionId { get; private set; }
@@ -36,14 +31,11 @@ namespace CourseSchedule.Core.DBModel
         public Course Course { get; private set; }
         public IReadOnlyCollection<Course> Courses => courses;
 
-
-        public void Update(Guid institutionId, string name, string majorCode, bool isMajor)
+        public void Update(Guid institutionId, string name)
         {
             // logic to ensure the name is valid
             InstitutionId = institutionId;
             Name = name;
-            MajorCode = majorCode;
-            IsMajor = isMajor;
         }
 
         public void AddCourse(Course course)

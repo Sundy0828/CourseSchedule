@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace CourseSchedule.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Institutions/{InstitutionId}/Disciplines")]
     public class DisciplinesController : ControllerBase
     {
         private readonly ILogger<DisciplinesController> _logger;
@@ -26,9 +26,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Creates a new discipline",
             Description = "This endpoint allows the create of a new discipline.")]
         [SwaggerResponse((int)HttpStatusCode.Created, Description = "Returns a created discipline.", Type = typeof(DisciplineResponse))]
-        public IActionResult Create([FromBody] DisciplineRequest discipline)
+        public IActionResult Create(Guid InstitutionId, [FromBody] DisciplineRequest discipline)
         {
-            return Ok(_logic.Create(discipline));
+            return Created("", _logic.Create(InstitutionId, discipline));
         }
 
         [HttpGet]
@@ -36,9 +36,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Gets all disciplines",
             Description = "This endpoint allows the retreival of a list of disciplines.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns all disciplines.", Type = typeof(DisciplineCollection))]
-        public IActionResult Get()
+        public IActionResult Get(Guid InstitutionId)
         {
-            return Ok(_logic.GetAll());
+            return Ok(_logic.GetAll(InstitutionId));
         }
 
         [HttpGet("{DisciplineId}")]
@@ -46,9 +46,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Retrieves an discipline",
             Description = "This endpoint allows the retrieval of a single discipline.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns a single discipline.", Type = typeof(DisciplineResponse))]
-        public IActionResult Get(Guid DisciplineId)
+        public IActionResult Get(Guid InstitutionId, Guid DisciplineId)
         {
-            return Ok(_logic.Get(DisciplineId));
+            return Ok(_logic.Get(InstitutionId, DisciplineId));
         }
 
         [HttpPatch("{DisciplineId}")]
@@ -56,9 +56,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Updates an existing discipline",
             Description = "This endpoint allows the update of an existing discipline.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.", Type = typeof(DisciplineResponse))]
-        public IActionResult Patch(Guid DisciplineId, [FromBody] DisciplineRequest discipline)
+        public IActionResult Patch(Guid InstitutionId, Guid DisciplineId, [FromBody] DisciplineRequest discipline)
         {
-            return Ok(_logic.Update(DisciplineId, discipline));
+            return Ok(_logic.Update(InstitutionId, DisciplineId, discipline));
         }
 
         [HttpPut("{DisciplineId}")]
@@ -66,9 +66,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Updates an existing discipline",
             Description = "This endpoint allows the update of an existing discipline.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.", Type = typeof(DisciplineResponse))]
-        public IActionResult Put(Guid DisciplineId, [FromBody] DisciplineRequest discipline)
+        public IActionResult Put(Guid InstitutionId, Guid DisciplineId, [FromBody] DisciplineRequest discipline)
         {
-            return Ok(_logic.Update(DisciplineId, discipline));
+            return Ok(_logic.Update(InstitutionId, DisciplineId, discipline));
         }
 
         [HttpDelete("{DisciplineId}")]
@@ -76,9 +76,10 @@ namespace CourseSchedule.API.Controllers
             Summary = "Deletes an discipline",
             Description = "This endpoint allows the deletion of an discipline.")]
         [SwaggerResponse((int)HttpStatusCode.NoContent, Description = "Successfully deleted the field.")]
-        public IActionResult Delete(Guid DisciplineId)
+        public IActionResult Delete(Guid InstitutionId, Guid DisciplineId)
         {
-            return Ok(_logic.Delete(DisciplineId));
+            _logic.Delete(InstitutionId, DisciplineId);
+            return NoContent();
         }
     }
 }

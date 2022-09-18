@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace CourseSchedule.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Institutions")]
     public class InstitutionsController : ControllerBase
     {
         private readonly ILogger<InstitutionsController> _logger;
@@ -27,7 +27,7 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.Created, Description = "Returns a created institution.", Type = typeof(InstitutionResponse))]
         public IActionResult Create([FromBody] InstitutionRequest institution)
         {
-            return Ok(_logic.Create(institution));
+            return Created("", _logic.Create(institution));
         }
 
         [HttpGet]
@@ -77,7 +77,8 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.NoContent, Description = "Successfully deleted the field.")]
         public IActionResult Delete(Guid InstitutionId)
         {
-            return Ok(_logic.Delete(InstitutionId));
+            _logic.Delete(InstitutionId);
+            return NoContent();
         }
     }
 }

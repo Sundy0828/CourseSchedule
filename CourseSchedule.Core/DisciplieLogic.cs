@@ -20,25 +20,25 @@ namespace CourseSchedule.Core
             _context = context;
         }
 
-        public List<Discipline> GetAll()
+        public List<Discipline> GetAll(Guid institutionId)
         {
             _logger.LogInformation("Get all Disciplines");
 
-            return _context.Disciplines.OrderBy(d => d).ToList();
+            return _context.Disciplines.Where(d => d.InstitutionId == institutionId).OrderBy(d => d).ToList();
         }
 
-        public Discipline Get(Guid id)
+        public Discipline Get(Guid institutionId, Guid id)
         {
             _logger.LogInformation("Get Discipline {ID}", id);
 
-            return _context.Disciplines.Where(i => i.Id == id).First();
+            return _context.Disciplines.Where(d => d.Id == id && d.InstitutionId == institutionId).First();
         }
 
-        public Discipline Create(DisciplineRequest d)
+        public Discipline Create(Guid institutionId, DisciplineRequest d)
         {
             _logger.LogInformation("Create Discipline {Institusion}", d.Name);
 
-            Discipline Discipline = new(d.Name, d.IsMajor);
+            Discipline Discipline = new(institutionId, d.Name, d.MajorCode, d.IsMajor);
 
             _context.Add(Discipline);
             _context.SaveChanges();
@@ -46,12 +46,12 @@ namespace CourseSchedule.Core
             return Discipline;
         }
 
-        public Discipline Update(Guid id, DisciplineRequest d)
+        public Discipline Update(Guid institutionId, Guid id, DisciplineRequest d)
         {
             _logger.LogInformation("Update {Institusion} {ID}", d.Name,  id);
 
-            Discipline Discipline = _context.Disciplines.Where(i => i.Id == id).First();
-            Discipline.Update(d.Name, d.IsMajor);
+            Discipline Discipline = _context.Disciplines.Where(d => d.Id == id && d.InstitutionId == institutionId).First();
+            Discipline.Update(institutionId, d.Name, d.MajorCode, d.IsMajor);
 
             _context.Update(Discipline);
             _context.SaveChanges();
@@ -59,11 +59,11 @@ namespace CourseSchedule.Core
             return Discipline;
         }
 
-        public Discipline Delete(Guid id)
+        public Discipline Delete(Guid institutionId, Guid id)
         {
             _logger.LogInformation("Delete Discipline {ID}", id);
 
-            Discipline Discipline = _context.Disciplines.Where(i => i.Id == id).First();
+            Discipline Discipline = _context.Disciplines.Where(d => d.Id == id && d.InstitutionId == institutionId).First();
 
             _context.Remove(Discipline);
             _context.SaveChanges();

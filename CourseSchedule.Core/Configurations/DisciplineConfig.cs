@@ -21,6 +21,11 @@ namespace CourseSchedule.Core.Configurations
             builder.Property(d => d.Name)
                 .HasMaxLength(250) // setting max length can provide huge performance gains
                 .IsRequired();
+
+            builder.Metadata
+                .FindNavigation(nameof(Discipline.Courses))
+                // Convention based -> will find field named "Courses"
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
