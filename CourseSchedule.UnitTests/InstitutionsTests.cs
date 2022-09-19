@@ -24,8 +24,6 @@ namespace CourseSchedule.UnitTests
             _context.Database.EnsureDeleted();
             _context.Database.EnsureCreated();
             _context.SaveChanges();
-
-
         }
 
         [Fact]
