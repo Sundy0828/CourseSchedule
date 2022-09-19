@@ -58,7 +58,7 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.", Type = typeof(DisciplineResponse))]
         public IActionResult Patch(Guid InstitutionId, Guid DisciplineId, [FromBody] DisciplineRequest discipline)
         {
-            return Ok(_logic.Update(InstitutionId, DisciplineId, discipline));
+            return Ok(_logic.PutUpdate(InstitutionId, DisciplineId, discipline));
         }
 
         [HttpPut("{DisciplineId}")]
@@ -68,7 +68,7 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.", Type = typeof(DisciplineResponse))]
         public IActionResult Put(Guid InstitutionId, Guid DisciplineId, [FromBody] DisciplineRequest discipline)
         {
-            return Ok(_logic.Update(InstitutionId, DisciplineId, discipline));
+            return Ok(_logic.PatchUpdate(InstitutionId, DisciplineId, discipline));
         }
 
         [HttpDelete("{DisciplineId}")]

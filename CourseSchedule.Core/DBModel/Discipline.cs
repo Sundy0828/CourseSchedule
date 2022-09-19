@@ -12,14 +12,12 @@ namespace CourseSchedule.Core.DBModel
     public class Discipline : CourseScheduleEntity
     {
         private readonly HashSet<Course> courses;
-        public Discipline(Guid institutionId, string name, string majorCode, bool isMajor)
+        public Discipline(string name, string majorCode, bool isMajor)
         {
             Id = Guid.NewGuid();
             Name = name;
             MajorCode = majorCode;
             IsMajor = isMajor;
-
-            InstitutionId = institutionId;
 
             courses = new HashSet<Course>();
         }
@@ -30,17 +28,13 @@ namespace CourseSchedule.Core.DBModel
         public bool IsMajor { get; private set; }
 
         // Navigation Properties
-        public Guid InstitutionId { get; private set; }
         public Institution Institution { get; private set; }
-        public Guid CourseId { get; private set; }
-        public Course Course { get; private set; }
         public IReadOnlyCollection<Course> Courses => courses;
 
 
-        public void Update(Guid institutionId, string name, string majorCode, bool isMajor)
+        public void Update(string name, string majorCode, bool isMajor)
         {
             // logic to ensure the name is valid
-            InstitutionId = institutionId;
             Name = name;
             MajorCode = majorCode;
             IsMajor = isMajor;

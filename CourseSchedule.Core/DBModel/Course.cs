@@ -15,16 +15,12 @@ namespace CourseSchedule.Core.DBModel
         private readonly HashSet<Semester> semesters;
         private readonly HashSet<Year> years;
 
-        public Course(Guid disciplineId, Guid combinationId, Guid semesterId, Guid yearId, string name, int credits, string courseCode)
+        public Course(string name, int credits, string courseCode)
         {
             Id = Guid.NewGuid();
             Name = name;
             CourseCode = courseCode;
             Credits = credits;
-
-            DisciplineId = disciplineId;
-            CombinationId = combinationId;
-            SemesterId = semesterId;
 
             disciplines = new HashSet<Discipline>();
             combinations = new HashSet<Combination>();
@@ -38,23 +34,17 @@ namespace CourseSchedule.Core.DBModel
         public string CourseCode { get; private set; }
 
         // Navigation Properties
-        public Guid DisciplineId { get; private set; }
-        public Discipline Discipline { get; private set; }
-        public Guid CombinationId { get; private set; }
-        public Discipline Combination { get; private set; }
-        public Guid SemesterId { get; private set; }
-        public Semester Semester { get; private set; }
-        public Guid YearId { get; private set; }
-        public Year Year { get; private set; }
         public IReadOnlyCollection<Discipline> Disciplines => disciplines;
         public IReadOnlyCollection<Combination> Combinations => combinations;
         public IReadOnlyCollection<Semester> Semesters => semesters;
         public IReadOnlyCollection<Year> Years => years;
 
-        public void Update(string name)
+        public void Update(string name, int credits, string courseCode)
         {
             // logic to ensure the name is valid
             Name = name;
+            CourseCode = courseCode;
+            Credits = credits;
         }
 
         public void AddDiscipline(Discipline discipline)

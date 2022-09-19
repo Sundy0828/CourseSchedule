@@ -51,10 +51,12 @@ namespace CourseSchedule.API
 
             List<string> files = new()
             {
-                "Institutions.json"
+                "Institutions.json",
+                "Disciplines.json"
             };
 
             Dictionary<Guid, Institution> institutions = new();
+            Dictionary<Guid, Discipline> disciplines = new();
 
             for (int file = 0; file < files.Count; file++)
             {
@@ -70,28 +72,31 @@ namespace CourseSchedule.API
                     {
                         case 0: // Instutitions
                             {
-                                Institution i = new(
+                                Institution institution = new(
                                     (string)data["Name"]
                                 );
 
-                                institutions[i.Id] = i;
-                                context.Add(i);
+                                institutions[institution.Id] = institution;
+                                context.Add(institution);
                                 context.SaveChanges();
 
                                 break;
                             }
                         case 1:
                             {
-                                Institution institution = context.Institutions.Where(i => i.Name == data["InstitutionName"].ToString()).FirstOrDefault();
-                                Discipline disciplines = new
+                                Discipline discipline = new
                                 (
-                                    institution.Id,
                                     (string)data["MajorCode"],
                                     (string)data["Name"],
                                     (bool)data["IsMajor"]
                                 );
 
-                                context.Add(disciplines);
+                                // Add discipline to institution
+                                Institution institution = context.Institutions.Where(i => i.Name == data["InstitutionName"].ToString()).First();
+                                institution.AddDiscipline(discipline);
+
+                                disciplines[discipline.Id] = discipline;
+                                context.Add(discipline);
                                 context.SaveChanges();
 
                                 break;

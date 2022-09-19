@@ -10,11 +10,10 @@ namespace CourseSchedule.Core.DBModel
     {
         private readonly HashSet<Course> courses;
 
-        public Year(Guid institutionId, string name)
+        public Year(string name)
         {
             Id = Guid.NewGuid();
             Name = name;
-            InstitutionId = institutionId;
 
             courses = new HashSet<Course>();
         }
@@ -25,16 +24,12 @@ namespace CourseSchedule.Core.DBModel
 
 
         // Navigation Properties
-        public Guid InstitutionId { get; private set; }
         public Institution Institution { get; private set; }
-        public Guid CourseId { get; private set; }
-        public Course Course { get; private set; }
         public IReadOnlyCollection<Course> Courses => courses;
 
-        public void Update(Guid institutionId, string name)
+        public void Update(string name)
         {
             // logic to ensure the name is valid
-            InstitutionId = institutionId;
             Name = name;
         }
 

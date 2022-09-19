@@ -15,12 +15,10 @@ namespace CourseSchedule.Core.DBModel
     public class Combination : CourseScheduleEntity
     {
         private readonly HashSet<Course> courses;
-        public Combination(Guid courseId, LogicalOperator logicalOperator)
+        public Combination(LogicalOperator logicalOperator)
         {
             Id = Guid.NewGuid();
             LogicalOperator = logicalOperator;
-
-            CourseId = courseId;
         }
 
         public Guid Id { get; private set; }
@@ -28,15 +26,12 @@ namespace CourseSchedule.Core.DBModel
         public LogicalOperator LogicalOperator { get; private set; }
 
         // Navigation Properties
-        public Guid CourseId { get; private set; }
-        public Course Course { get; private set; }
         public IReadOnlyCollection<Course> Courses => courses;
 
 
-        public void Update(Guid courseId, LogicalOperator logicalOperator)
+        public void Update(LogicalOperator logicalOperator)
         {
             // logic to ensure the name is valid
-            CourseId = courseId;
             LogicalOperator = logicalOperator;
         }
 

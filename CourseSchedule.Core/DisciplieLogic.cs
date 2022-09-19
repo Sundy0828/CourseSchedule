@@ -24,51 +24,68 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Get all Disciplines");
 
-            return _context.Disciplines.Where(d => d.InstitutionId == institutionId).OrderBy(d => d).ToList();
+            return _context.Disciplines.Where(d => d.Institution.Id == institutionId).OrderBy(d => d).ToList();
         }
 
         public Discipline Get(Guid institutionId, Guid id)
         {
             _logger.LogInformation("Get Discipline {ID}", id);
 
-            return _context.Disciplines.Where(d => d.Id == id && d.InstitutionId == institutionId).First();
+            return _context.Disciplines.Where(d => d.Id == id && d.Institution.Id == institutionId).First();
         }
 
         public Discipline Create(Guid institutionId, DisciplineRequest d)
         {
             _logger.LogInformation("Create Discipline {Institusion}", d.Name);
 
-            Discipline Discipline = new(institutionId, d.Name, d.MajorCode, d.IsMajor);
+            Institution institution = _context.Institutions.Where(i => i.Id == institutionId).First();
 
-            _context.Add(Discipline);
+            Discipline discipline = new(d.Name, d.MajorCode, d.IsMajor);
+
+            institution.AddDiscipline(discipline);
+
+            _context.Add(discipline);
             _context.SaveChanges();
 
-            return Discipline;
+            return discipline;
         }
 
-        public Discipline Update(Guid institutionId, Guid id, DisciplineRequest d)
+        public Discipline PutUpdate(Guid institutionId, Guid id, DisciplineRequest d)
         {
-            _logger.LogInformation("Update {Institusion} {ID}", d.Name,  id);
+            _logger.LogInformation("Put Update {Institusion} {ID}", d.Name,  id);
 
-            Discipline Discipline = _context.Disciplines.Where(d => d.Id == id && d.InstitutionId == institutionId).First();
-            Discipline.Update(institutionId, d.Name, d.MajorCode, d.IsMajor);
+            Discipline discipline = _context.Disciplines.Where(d => d.Id == id && d.Institution.Id == institutionId).First();
+            discipline.Update(d.Name, d.MajorCode, d.IsMajor);
 
-            _context.Update(Discipline);
+            _context.Update(discipline);
             _context.SaveChanges();
 
-            return Discipline;
+            return discipline;
+        }
+
+        public Discipline PatchUpdate(Guid institutionId, Guid id, DisciplineRequest d)
+        {
+            _logger.LogInformation("Patch Update {Institusion} {ID}", d.Name, id);
+
+            Discipline discipline = _context.Disciplines.Where(d => d.Id == id && d.Institution.Id == institutionId).First();
+            discipline.Update(d.Name, d.MajorCode, d.IsMajor);
+
+            _context.Update(discipline);
+            _context.SaveChanges();
+
+            return discipline;
         }
 
         public Discipline Delete(Guid institutionId, Guid id)
         {
             _logger.LogInformation("Delete Discipline {ID}", id);
 
-            Discipline Discipline = _context.Disciplines.Where(d => d.Id == id && d.InstitutionId == institutionId).First();
+            Discipline discipline = _context.Disciplines.Where(d => d.Id == id && d.Institution.Id == institutionId).First();
 
-            _context.Remove(Discipline);
+            _context.Remove(discipline);
             _context.SaveChanges();
 
-            return Discipline;
+            return discipline;
         }
     }
 }

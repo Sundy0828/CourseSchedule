@@ -46,9 +46,22 @@ namespace CourseSchedule.Core
             return institution;
         }
 
-        public Institution Update(Guid id, InstitutionRequest i)
+        public Institution PutUpdate(Guid id, InstitutionRequest i)
         {
-            _logger.LogInformation("Update {Institusion} {ID}", i.Name, id);
+            _logger.LogInformation("Put Update {Institusion} {ID}", i.Name, id);
+
+            Institution institution = _context.Institutions.Where(i => i.Id == id).First();
+            institution.Update(i.Name);
+
+            _context.Update(institution);
+            _context.SaveChanges();
+
+            return institution;
+        }
+
+        public Institution PatchUpdate(Guid id, InstitutionRequest i)
+        {
+            _logger.LogInformation("Patch Update {Institusion} {ID}", i.Name, id);
 
             Institution institution = _context.Institutions.Where(i => i.Id == id).First();
             institution.Update(i.Name);

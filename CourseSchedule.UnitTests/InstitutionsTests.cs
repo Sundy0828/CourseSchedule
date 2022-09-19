@@ -65,7 +65,7 @@ namespace CourseSchedule.UnitTests
             {
                 Name = "Seton Hall University"
             };
-            Institution insitution = _logic.Update(i.Id, request);
+            Institution insitution = _logic.PutUpdate(i.Id, request);
 
             insitution.ShouldNotBeNull();
         }
@@ -77,7 +77,7 @@ namespace CourseSchedule.UnitTests
             {
                 Name = "Seton Hall University"
             };
-            Institution insitution = _logic.Update(i.Id, request);
+            Institution insitution = _logic.PatchUpdate(i.Id, request);
 
             insitution.ShouldNotBeNull();
         }
