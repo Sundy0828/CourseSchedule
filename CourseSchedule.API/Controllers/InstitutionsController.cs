@@ -2,8 +2,10 @@
 using CourseSchedule.API.Models.Requests;
 using CourseSchedule.API.Models.Response;
 using CourseSchedule.Core;
+using CourseSchedule.Core.DBModel;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseSchedule.API.Controllers
@@ -38,7 +40,21 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns all institutions.", Type = typeof(InstitutionCollection))]
         public IActionResult Get([FromQuery] Pagination pagination)
         {
-            return Ok(_logic.GetAll(pagination));
+            var i = _logic.GetAll(pagination);
+
+            var metadata = new
+            {
+                i.TotalCount,
+                i.PageSize,
+                i.CurrentPage,
+                i.TotalPages,
+                i.HasNext,
+                i.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(i);
         }
 
         [HttpGet("{InstitutionId}")]

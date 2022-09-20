@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CourseSchedule.API.Models.Requests;
+using CourseSchedule.API.Models.Response;
 using CourseSchedule.Core.DBModel;
 using Microsoft.Extensions.Logging;
 
@@ -20,15 +21,13 @@ namespace CourseSchedule.Core
             _context = context;
         }
 
-        public List<Institution> GetAll(Pagination pagination)
+        public PagedList<Institution> GetAll(Pagination pagination)
         {
             _logger.LogInformation("Get all institutions");
 
-            return _context.Institutions
-                .OrderBy(i => i.Name)
-                .Skip((pagination.PageNumber - 1) * pagination.PageSize)
-                .Take(pagination.PageSize)
-                .ToList();
+            return PagedList<Institution>.ToPagedList(_context.Institutions.OrderBy(on => on.Name),
+                pagination.PageNumber,
+                pagination.PageSize);
         }
 
         public Institution Get(Guid id)

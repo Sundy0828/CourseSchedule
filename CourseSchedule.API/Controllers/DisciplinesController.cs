@@ -4,6 +4,7 @@ using CourseSchedule.API.Models.Response;
 using CourseSchedule.Core;
 using CourseSchedule.Core.DBModel;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseSchedule.API.Controllers
@@ -38,7 +39,21 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns all disciplines.", Type = typeof(DisciplineCollection))]
         public IActionResult Get(Guid InstitutionId, [FromQuery] Pagination pagination)
         {
-            return Ok(_logic.GetAll(InstitutionId, pagination));
+            var d = _logic.GetAll(InstitutionId, pagination);
+
+            var metadata = new
+            {
+                d.TotalCount,
+                d.PageSize,
+                d.CurrentPage,
+                d.TotalPages,
+                d.HasNext,
+                d.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(d);
         }
 
         [HttpGet("{DisciplineId}")]
