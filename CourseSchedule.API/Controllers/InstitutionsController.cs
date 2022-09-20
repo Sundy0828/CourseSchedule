@@ -1,7 +1,8 @@
 ﻿using System.Net;
-using CourseSchedule.API.Models.Creation;
+using CourseSchedule.API.Models.Requests;
 using CourseSchedule.API.Models.Response;
 using CourseSchedule.Core;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -35,9 +36,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Gets all institutions",
             Description = "This endpoint allows the retreival of a list of institutions.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns all institutions.", Type = typeof(InstitutionCollection))]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] Pagination pagination)
         {
-            return Ok(_logic.GetAll());
+            return Ok(_logic.GetAll(pagination));
         }
 
         [HttpGet("{InstitutionId}")]
@@ -57,7 +58,7 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated institution.", Type = typeof(InstitutionResponse))]
         public IActionResult Patch(Guid InstitutionId, [FromBody] InstitutionRequest institution)
         {
-            return Ok(_logic.PutUpdate(InstitutionId, institution));
+            return Ok(_logic.PatchUpdate(InstitutionId, institution));
         }
 
         [HttpPut("{InstitutionId}")]
@@ -67,7 +68,7 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated institution.", Type = typeof(InstitutionResponse))]
         public IActionResult Put(Guid InstitutionId, [FromBody] InstitutionRequest institution)
         {
-            return Ok(_logic.PatchUpdate(InstitutionId, institution));
+            return Ok(_logic.PutUpdate(InstitutionId, institution));
         }
 
         [HttpDelete("{InstitutionId}")]

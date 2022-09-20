@@ -9,7 +9,6 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace CourseSchedule.Core.DBModel
 {
-    [Table("institutions")]
     public class Institution : CourseScheduleEntity
     {
         private readonly HashSet<Discipline> disciplines;

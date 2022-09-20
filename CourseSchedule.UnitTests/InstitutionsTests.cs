@@ -1,4 +1,4 @@
-﻿using CourseSchedule.API.Models.Creation;
+﻿using CourseSchedule.API.Models.Requests;
 using CourseSchedule.Core;
 using CourseSchedule.Core.DBModel;
 using Shouldly;
@@ -7,29 +7,17 @@ namespace CourseSchedule.UnitTests
 {
     public class InstitutionsTests : InMemoryDatabaseTest
     {
-        readonly InstitutionLogic _logic;
-        readonly CourseScheduleDBContext _context;
-
         private Institution i;
-        protected override void Dispose(bool disposing)
-        {
-            _context.Dispose();
-            base.Dispose(disposing);
-        }
 
         public InstitutionsTests() : base()
         {
-            _context = new CourseScheduleDBContext(ContextOptions);
-
-            _context.Database.EnsureDeleted();
-            _context.Database.EnsureCreated();
-            _context.SaveChanges();
+            
         }
 
         [Fact]
         public void PostInstitution()
         {
-            Institution insitution = _logic.Create(new InstitutionRequest()
+            Institution insitution = _institutionLogic.Create(new InstitutionRequest()
             {
                 Name = "Seton Hill University"
             });
@@ -43,7 +31,7 @@ namespace CourseSchedule.UnitTests
         [Fact]
         public void GetAllInstitutions()
         {
-            List<Institution> insitutions = _logic.GetAll();
+            List<Institution> insitutions = _institutionLogic.GetAll();
 
             insitutions.ShouldNotBeNull();
         }
@@ -51,7 +39,7 @@ namespace CourseSchedule.UnitTests
         [Fact]
         public void GetInstitution()
         {
-            Institution insitution = _logic.Get(i.Id);
+            Institution insitution = _institutionLogic.Get(i.Id);
 
             insitution.ShouldNotBeNull();
         }
@@ -63,7 +51,7 @@ namespace CourseSchedule.UnitTests
             {
                 Name = "Seton Hall University"
             };
-            Institution insitution = _logic.PutUpdate(i.Id, request);
+            Institution insitution = _institutionLogic.PutUpdate(i.Id, request);
 
             insitution.ShouldNotBeNull();
         }
@@ -75,7 +63,7 @@ namespace CourseSchedule.UnitTests
             {
                 Name = "Seton Hall University"
             };
-            Institution insitution = _logic.PatchUpdate(i.Id, request);
+            Institution insitution = _institutionLogic.PatchUpdate(i.Id, request);
 
             insitution.ShouldNotBeNull();
         }
@@ -83,8 +71,8 @@ namespace CourseSchedule.UnitTests
         [Fact]
         public void DeleteInstitution()
         {
-            _logic.Delete(i.Id);
-            Institution insitution = _logic.Get(i.Id);
+            _institutionLogic.Delete(i.Id);
+            Institution insitution = _institutionLogic.Get(i.Id);
 
             insitution.ShouldNotBeNull();
         }

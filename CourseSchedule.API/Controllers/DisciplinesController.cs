@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using CourseSchedule.API.Models.Creation;
+using CourseSchedule.API.Models.Requests;
 using CourseSchedule.API.Models.Response;
 using CourseSchedule.Core;
 using CourseSchedule.Core.DBModel;
@@ -36,9 +36,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Gets all disciplines",
             Description = "This endpoint allows the retreival of a list of disciplines.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns all disciplines.", Type = typeof(DisciplineCollection))]
-        public IActionResult Get(Guid InstitutionId)
+        public IActionResult Get(Guid InstitutionId, [FromQuery] Pagination pagination)
         {
-            return Ok(_logic.GetAll(InstitutionId));
+            return Ok(_logic.GetAll(InstitutionId, pagination));
         }
 
         [HttpGet("{DisciplineId}")]
@@ -58,7 +58,7 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.", Type = typeof(DisciplineResponse))]
         public IActionResult Patch(Guid InstitutionId, Guid DisciplineId, [FromBody] DisciplineRequest discipline)
         {
-            return Ok(_logic.PutUpdate(InstitutionId, DisciplineId, discipline));
+            return Ok(_logic.PatchUpdate(InstitutionId, DisciplineId, discipline));
         }
 
         [HttpPut("{DisciplineId}")]
@@ -68,7 +68,7 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.", Type = typeof(DisciplineResponse))]
         public IActionResult Put(Guid InstitutionId, Guid DisciplineId, [FromBody] DisciplineRequest discipline)
         {
-            return Ok(_logic.PatchUpdate(InstitutionId, DisciplineId, discipline));
+            return Ok(_logic.PutUpdate(InstitutionId, DisciplineId, discipline));
         }
 
         [HttpDelete("{DisciplineId}")]

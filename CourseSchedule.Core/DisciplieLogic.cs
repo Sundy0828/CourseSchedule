@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CourseSchedule.API.Models.Creation;
+using CourseSchedule.API.Models.Requests;
 using CourseSchedule.Core.DBModel;
 using Microsoft.Extensions.Logging;
 
@@ -20,11 +20,16 @@ namespace CourseSchedule.Core
             _context = context;
         }
 
-        public List<Discipline> GetAll(Guid institutionId)
+        public List<Discipline> GetAll(Guid institutionId, Pagination pagination)
         {
             _logger.LogInformation("Get all Disciplines");
 
-            return _context.Disciplines.Where(d => d.Institution.Id == institutionId).OrderBy(d => d).ToList();
+            return _context.Disciplines
+                .Where(d => d.Institution.Id == institutionId)
+                .OrderBy(d => d)
+                .Skip((pagination.PageNumber - 1) * pagination.PageSize)
+                .Take(pagination.PageSize)
+                .ToList();
         }
 
         public Discipline Get(Guid institutionId, Guid id)

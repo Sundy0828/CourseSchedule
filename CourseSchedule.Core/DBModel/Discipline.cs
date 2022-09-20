@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace CourseSchedule.Core.DBModel
 {
-    [Table("disciplines")]
     public class Discipline : CourseScheduleEntity
     {
         private readonly HashSet<Course> courses;

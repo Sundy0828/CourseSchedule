@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CourseSchedule.API.Models.Creation
+namespace CourseSchedule.API.Models.Requests
 {
     public class DisciplineRequest
     {
