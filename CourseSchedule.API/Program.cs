@@ -1,5 +1,9 @@
-﻿using CourseSchedule.API;
+﻿using AutoMapper;
+using CourseSchedule.API;
 using CourseSchedule.Core;
+using CourseSchedule.Core.DBModel;
+using CourseSchedule.Models.Requests;
+using CourseSchedule.Models.Response;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -48,6 +52,20 @@ static void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddMemoryCache();
 
     builder.Services.AddScoped<InstitutionLogic>();
+    builder.Services.AddScoped<DisciplineLogic>();
+
+    var configuration = new MapperConfiguration(cfg =>
+    {
+        cfg.CreateMap<Institution, InstitutionRequest>();
+        cfg.CreateMap<Discipline, DisciplineRequest>();
+        cfg.CreateMap<Institution, InstitutionResponse>();
+        cfg.CreateMap<Discipline, DisciplineResponse>();
+    });
+    // only during development, validate your mappings; remove it before release
+    configuration.AssertConfigurationIsValid();
+    // use DI (http://docs.automapper.org/en/latest/Dependency-injection.html) or create the mapper yourself
+    IMapper mapper = configuration.CreateMapper();
+    builder.Services.AddSingleton(mapper);
 
     builder.Services.AddControllers(options =>
     {

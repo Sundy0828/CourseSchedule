@@ -62,7 +62,7 @@ namespace CourseSchedule.API
             {
                 string text = File.ReadAllText(files[file]);
                 Dictionary<string, object> deserializedInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(text);
-                JArray infoList = (JArray)deserializedInfo["data"];
+                JArray infoList = (JArray)deserializedInfo["Data"];
 
                 _logger.LogInformation("Attempting to add the data for {files}.", files[file]);
 

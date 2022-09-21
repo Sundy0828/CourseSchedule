@@ -7,19 +7,22 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
+using AutoMapper;
 
 namespace CourseSchedule.API.Controllers
 {
     [ApiController]
-    [Route("Institutions")]
+    [Route("[controller]")]
     public class InstitutionsController : ControllerBase
     {
         private readonly ILogger<InstitutionsController> _logger;
+        private readonly IMapper _mapper;
         private readonly InstitutionLogic _logic;
 
-        public InstitutionsController(ILogger<InstitutionsController> logger, InstitutionLogic logic)
+        public InstitutionsController(ILogger<InstitutionsController> logger, IMapper mapper, InstitutionLogic logic)
         {
             _logger = logger;
+            _mapper = mapper;
             _logic = logic;
         }
 
@@ -64,7 +67,7 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns a single institution.", Type = typeof(InstitutionResponse))]
         public IActionResult Get(Guid InstitutionId)
         {
-            return Ok(_logic.Get(InstitutionId));
+            return Ok(_mapper.Map<InstitutionResponse>(_logic.Get(InstitutionId)));
         }
 
         [HttpPatch("{InstitutionId}")]

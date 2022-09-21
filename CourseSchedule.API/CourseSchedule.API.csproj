@@ -28,6 +28,7 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,4 +36,7 @@
     <ProjectReference Include="..\CourseSchedule.Models\CourseSchedule.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="AutoMapper" />
+  </ItemGroup>
 </Project>

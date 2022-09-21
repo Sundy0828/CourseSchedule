@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace CourseSchedule.API.Controllers
 {
     [ApiController]
+
     [Route("Institutions/{InstitutionId}/Disciplines")]
     public class DisciplinesController : ControllerBase
     {
