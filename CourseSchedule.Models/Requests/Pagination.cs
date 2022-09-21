@@ -1,7 +1,7 @@
 ﻿using System;
-namespace CourseSchedule.API.Models.Requests
+namespace CourseSchedule.Models.Requests
 {
-    public class Pagination
+    public abstract class Pagination
     {
         const int maxPageSize = 100;
         public int PageNumber { get; set; } = 1;

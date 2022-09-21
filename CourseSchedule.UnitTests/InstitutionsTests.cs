@@ -1,4 +1,4 @@
-﻿using CourseSchedule.API.Models.Requests;
+﻿using CourseSchedule.Models.Requests;
 using CourseSchedule.Core;
 using CourseSchedule.Core.DBModel;
 using Shouldly;

@@ -3,7 +3,7 @@
     "CourseSchedule.Models": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:53063;http://localhost:53064",
+      "applicationUrl": "http://localhost:29415",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

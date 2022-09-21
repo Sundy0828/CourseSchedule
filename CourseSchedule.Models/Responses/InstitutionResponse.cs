@@ -1,4 +1,4 @@
-﻿namespace CourseSchedule.API.Models.Response
+﻿namespace CourseSchedule.Models.Response
 {
     public class InstitutionResponse
     {

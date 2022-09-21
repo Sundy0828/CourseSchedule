@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using CourseSchedule.API.Models.Requests;
-using CourseSchedule.API.Models.Response;
+using CourseSchedule.Models.Requests;
+using CourseSchedule.Models.Response;
 using CourseSchedule.Core;
 using CourseSchedule.Core.DBModel;
 using Microsoft.AspNetCore.JsonPatch;
@@ -37,24 +37,24 @@ namespace CourseSchedule.API.Controllers
         [SwaggerOperation(
             Summary = "Gets all institutions",
             Description = "This endpoint allows the retreival of a list of institutions.")]
-        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns all institutions.", Type = typeof(InstitutionCollection))]
-        public IActionResult Get([FromQuery] Pagination pagination)
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns all institutions.", Type = typeof(PagedList<InstitutionResponse>))]
+        public IActionResult Get([FromQuery] InstitutionPagination pagination)
         {
-            var i = _logic.GetAll(pagination);
+            var pagedInstitution = _logic.GetAll(pagination);
 
             var metadata = new
             {
-                i.TotalCount,
-                i.PageSize,
-                i.CurrentPage,
-                i.TotalPages,
-                i.HasNext,
-                i.HasPrevious
+                pagedInstitution.TotalCount,
+                pagedInstitution.PageSize,
+                pagedInstitution.CurrentPage,
+                pagedInstitution.TotalPages,
+                pagedInstitution.HasNext,
+                pagedInstitution.HasPrevious
             };
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
 
-            return Ok(i);
+            return Ok(pagedInstitution);
         }
 
         [HttpGet("{InstitutionId}")]

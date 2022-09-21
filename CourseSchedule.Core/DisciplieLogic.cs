@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CourseSchedule.API.Models.Requests;
-using CourseSchedule.API.Models.Response;
+using CourseSchedule.Models.Requests;
+using CourseSchedule.Models.Response;
 using CourseSchedule.Core.DBModel;
 using Microsoft.Extensions.Logging;
 

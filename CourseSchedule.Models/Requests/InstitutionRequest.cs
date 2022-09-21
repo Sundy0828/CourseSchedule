@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CourseSchedule.API.Models.Requests
+namespace CourseSchedule.Models.Requests
 {
     public class InstitutionRequest
     {
