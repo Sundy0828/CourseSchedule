@@ -11,7 +11,10 @@ namespace CourseSchedule.UnitTests
 
         public InstitutionsTests() : base()
         {
-            
+            i = _institutionLogic.Create(new InstitutionRequest()
+            {
+                Name = "Seton Hill University"
+            });
         }
 
         [Fact]
@@ -19,19 +22,18 @@ namespace CourseSchedule.UnitTests
         {
             Institution insitution = _institutionLogic.Create(new InstitutionRequest()
             {
-                Name = "Seton Hill University"
+                Name = "Carnegie Mellon University"
             });
 
-            i = insitution;
-
             insitution.ShouldNotBeNull();
-            insitution.Name.ShouldBeEquivalentTo("Seton Hill University");
+            insitution.Name.ShouldBeEquivalentTo("Carnegie Mellon University");
         }
 
         [Fact]
         public void GetAllInstitutions()
         {
-            List<Institution> insitutions = _institutionLogic.GetAll();
+            InstitutionPagination pagination = new();
+            List<Institution> insitutions = _institutionLogic.GetAll(pagination);
 
             insitutions.ShouldNotBeNull();
         }
@@ -72,9 +74,7 @@ namespace CourseSchedule.UnitTests
         public void DeleteInstitution()
         {
             _institutionLogic.Delete(i.Id);
-            Institution insitution = _institutionLogic.Get(i.Id);
-
-            insitution.ShouldNotBeNull();
+            Should.Throw<Exception>(() => _institutionLogic.Get(i.Id));
         }
     }
 }

@@ -75,7 +75,7 @@ namespace CourseSchedule.Core
             return institution;
         }
 
-        public Institution Delete(Guid id)
+        public void Delete(Guid id)
         {
             _logger.LogInformation("Delete institution {ID}", id);
 
@@ -83,8 +83,6 @@ namespace CourseSchedule.Core
 
             _context.Remove(institution);
             _context.SaveChanges();
-
-            return institution;
         }
     }
 }

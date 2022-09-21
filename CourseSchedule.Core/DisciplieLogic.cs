@@ -79,7 +79,7 @@ namespace CourseSchedule.Core
             return discipline;
         }
 
-        public Discipline Delete(Guid institutionId, Guid id)
+        public void Delete(Guid institutionId, Guid id)
         {
             _logger.LogInformation("Delete Discipline {ID}", id);
 
@@ -87,8 +87,6 @@ namespace CourseSchedule.Core
 
             _context.Remove(discipline);
             _context.SaveChanges();
-
-            return discipline;
         }
     }
 }

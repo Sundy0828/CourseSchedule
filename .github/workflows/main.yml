@@ -3,10 +3,8 @@ name: .NET
 on:
   push:
     branches: [ "master" ]
-    path: 'CourseSchedule.UnitTests/CourseSchedule.UnitTests.csproj'
   pull_request:
     branches: [ "master" ]
-    path: 'CourseSchedule.UnitTests/CourseSchedule.UnitTests.csproj'
 
 jobs:
   build:
@@ -20,8 +18,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore CourseSchedule.UnitTests/CourseSchedule.UnitTests.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore CourseSchedule.UnitTests/CourseSchedule.UnitTests.csproj
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal CourseSchedule.UnitTests/CourseSchedule.UnitTests.csproj
