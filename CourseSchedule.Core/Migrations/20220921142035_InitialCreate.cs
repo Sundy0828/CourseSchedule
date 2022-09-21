@@ -24,7 +24,7 @@ namespace CourseSchedule.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "courses",
+                name: "Course",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -36,11 +36,11 @@ namespace CourseSchedule.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_courses", x => x.Id);
+                    table.PrimaryKey("PK_Course", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "institutions",
+                name: "Institutions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -52,7 +52,7 @@ namespace CourseSchedule.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_institutions", x => x.Id);
+                    table.PrimaryKey("PK_Institutions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,15 +72,15 @@ namespace CourseSchedule.Core.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CombinationCourse_courses_CoursesId",
+                        name: "FK_CombinationCourse_Course_CoursesId",
                         column: x => x.CoursesId,
-                        principalTable: "courses",
+                        principalTable: "Course",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "disciplines",
+                name: "Disciplines",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -93,11 +93,11 @@ namespace CourseSchedule.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_disciplines", x => x.Id);
+                    table.PrimaryKey("PK_Disciplines", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_disciplines_institutions_InstitutionId",
+                        name: "FK_Disciplines_Institutions_InstitutionId",
                         column: x => x.InstitutionId,
-                        principalTable: "institutions",
+                        principalTable: "Institutions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -116,9 +116,9 @@ namespace CourseSchedule.Core.Migrations
                 {
                     table.PrimaryKey("PK_Semester", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Semester_institutions_InstitutionId",
+                        name: "FK_Semester_Institutions_InstitutionId",
                         column: x => x.InstitutionId,
-                        principalTable: "institutions",
+                        principalTable: "Institutions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -137,9 +137,9 @@ namespace CourseSchedule.Core.Migrations
                 {
                     table.PrimaryKey("PK_Year", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Year_institutions_InstitutionId",
+                        name: "FK_Year_Institutions_InstitutionId",
                         column: x => x.InstitutionId,
-                        principalTable: "institutions",
+                        principalTable: "Institutions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -155,15 +155,15 @@ namespace CourseSchedule.Core.Migrations
                 {
                     table.PrimaryKey("PK_CourseDiscipline", x => new { x.CoursesId, x.DisciplinesId });
                     table.ForeignKey(
-                        name: "FK_CourseDiscipline_courses_CoursesId",
+                        name: "FK_CourseDiscipline_Course_CoursesId",
                         column: x => x.CoursesId,
-                        principalTable: "courses",
+                        principalTable: "Course",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CourseDiscipline_disciplines_DisciplinesId",
+                        name: "FK_CourseDiscipline_Disciplines_DisciplinesId",
                         column: x => x.DisciplinesId,
-                        principalTable: "disciplines",
+                        principalTable: "Disciplines",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -179,9 +179,9 @@ namespace CourseSchedule.Core.Migrations
                 {
                     table.PrimaryKey("PK_CourseSemester", x => new { x.CoursesId, x.SemestersId });
                     table.ForeignKey(
-                        name: "FK_CourseSemester_courses_CoursesId",
+                        name: "FK_CourseSemester_Course_CoursesId",
                         column: x => x.CoursesId,
-                        principalTable: "courses",
+                        principalTable: "Course",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -203,9 +203,9 @@ namespace CourseSchedule.Core.Migrations
                 {
                     table.PrimaryKey("PK_CourseYear", x => new { x.CoursesId, x.YearsId });
                     table.ForeignKey(
-                        name: "FK_CourseYear_courses_CoursesId",
+                        name: "FK_CourseYear_Course_CoursesId",
                         column: x => x.CoursesId,
-                        principalTable: "courses",
+                        principalTable: "Course",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -237,8 +237,8 @@ namespace CourseSchedule.Core.Migrations
                 column: "YearsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_disciplines_InstitutionId",
-                table: "disciplines",
+                name: "IX_Disciplines_InstitutionId",
+                table: "Disciplines",
                 column: "InstitutionId");
 
             migrationBuilder.CreateIndex(
@@ -270,19 +270,19 @@ namespace CourseSchedule.Core.Migrations
                 name: "Combination");
 
             migrationBuilder.DropTable(
-                name: "disciplines");
+                name: "Disciplines");
 
             migrationBuilder.DropTable(
                 name: "Semester");
 
             migrationBuilder.DropTable(
-                name: "courses");
+                name: "Course");
 
             migrationBuilder.DropTable(
                 name: "Year");
 
             migrationBuilder.DropTable(
-                name: "institutions");
+                name: "Institutions");
         }
     }
 }

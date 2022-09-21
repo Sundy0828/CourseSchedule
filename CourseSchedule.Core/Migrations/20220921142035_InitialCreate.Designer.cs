@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CourseSchedule.Core.Migrations
 {
     [DbContext(typeof(CourseScheduleDBContext))]
-    [Migration("20220919213245_InitialCreate")]
+    [Migration("20220921142035_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,7 +99,7 @@ namespace CourseSchedule.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("courses");
+                    b.ToTable("Course");
                 });
 
             modelBuilder.Entity("CourseSchedule.Core.DBModel.Discipline", b =>
@@ -132,7 +132,7 @@ namespace CourseSchedule.Core.Migrations
 
                     b.HasIndex("InstitutionId");
 
-                    b.ToTable("disciplines");
+                    b.ToTable("Disciplines");
                 });
 
             modelBuilder.Entity("CourseSchedule.Core.DBModel.Institution", b =>
@@ -159,7 +159,7 @@ namespace CourseSchedule.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("institutions");
+                    b.ToTable("Institutions");
                 });
 
             modelBuilder.Entity("CourseSchedule.Core.DBModel.Semester", b =>

@@ -97,7 +97,7 @@ namespace CourseSchedule.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("courses");
+                    b.ToTable("Course");
                 });
 
             modelBuilder.Entity("CourseSchedule.Core.DBModel.Discipline", b =>
@@ -130,7 +130,7 @@ namespace CourseSchedule.Core.Migrations
 
                     b.HasIndex("InstitutionId");
 
-                    b.ToTable("disciplines");
+                    b.ToTable("Disciplines");
                 });
 
             modelBuilder.Entity("CourseSchedule.Core.DBModel.Institution", b =>
@@ -157,7 +157,7 @@ namespace CourseSchedule.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("institutions");
+                    b.ToTable("Institutions");
                 });
 
             modelBuilder.Entity("CourseSchedule.Core.DBModel.Semester", b =>
