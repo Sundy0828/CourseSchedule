@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CourseSchedule.API;
+using CourseSchedule.API.Controllers;
 using CourseSchedule.Core;
 using CourseSchedule.Core.DBModel;
 using CourseSchedule.Models.Requests;
@@ -53,13 +54,16 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     builder.Services.AddScoped<InstitutionLogic>();
     builder.Services.AddScoped<DisciplineLogic>();
+    builder.Services.AddScoped<CourseLogic>();
 
     var configuration = new MapperConfiguration(cfg =>
     {
         cfg.CreateMap<Institution, InstitutionRequest>();
         cfg.CreateMap<Discipline, DisciplineRequest>();
+        cfg.CreateMap<Course, CourseRequest>();
         cfg.CreateMap<Institution, InstitutionResponse>();
         cfg.CreateMap<Discipline, DisciplineResponse>();
+        cfg.CreateMap<Course, CourseResponse>();
     });
     // only during development, validate your mappings; remove it before release
     configuration.AssertConfigurationIsValid();
@@ -96,6 +100,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
 
     builder.Services.AddServiceInitializer<DbInitializer>();
 
+
     //builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
     //{
     //    options.InvalidModelStateResponseFactory = context =>
@@ -119,6 +124,8 @@ static void ConfigureApplication(WebApplication app)
     app.UseRouting();
 
     app.UseAuthorization();
+
+    app.UseMiddleware<ErrorHandlerMiddleware>();
 
     app.UseEndpoints(endpoints =>
     {

@@ -2,6 +2,7 @@
 using CourseSchedule.Core;
 using CourseSchedule.Core.DBModel;
 using Shouldly;
+using CourseSchedule.Models.Pagination;
 
 namespace CourseSchedule.UnitTests
 {

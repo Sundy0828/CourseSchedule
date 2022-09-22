@@ -1,4 +1,4 @@
-﻿namespace CourseSchedule.Models.Response
+﻿namespace CourseSchedule.Models.Pagination
 {
     public class PagedList<T> : List<T>
     {

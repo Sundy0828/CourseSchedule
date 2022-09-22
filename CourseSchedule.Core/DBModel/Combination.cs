@@ -14,38 +14,11 @@ namespace CourseSchedule.Core.DBModel
     }
     public class Combination : CourseScheduleEntity
     {
-        private readonly HashSet<Course> courses;
-        public Combination(LogicalOperator logicalOperator)
-        {
-            Id = Guid.NewGuid();
-            LogicalOperator = logicalOperator;
-        }
-
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public LogicalOperator LogicalOperator { get; private set; }
+        public LogicalOperator LogicalOperator { get; set; }
 
         // Navigation Properties
-        public IReadOnlyCollection<Course> Courses => courses;
-
-
-        public void Update(LogicalOperator logicalOperator)
-        {
-            // logic to ensure the name is valid
-            LogicalOperator = logicalOperator;
-        }
-
-        public void AddCourse(Course course)
-        {
-            // Some logic to handle whether a book
-            // can be added or not
-            courses.Add(course);
-        }
-
-        public void RemoveCourse(Course course)
-        {
-            // Logic
-            courses.Remove(course);
-        }
+        public ICollection<CourseCombination> CourseCombinations { get; set; }
     }
 }

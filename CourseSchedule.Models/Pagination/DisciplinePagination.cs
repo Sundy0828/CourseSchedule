@@ -1,5 +1,6 @@
 ﻿using System;
-namespace CourseSchedule.Models.Requests
+
+namespace CourseSchedule.Models.Pagination
 {
     public class DisciplinePagination : Pagination
     {

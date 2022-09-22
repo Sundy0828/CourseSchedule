@@ -48,5 +48,6 @@ namespace CourseSchedule.Core
 
         public virtual DbSet<Institution> Institutions { get; set; }
         public virtual DbSet<Discipline> Disciplines { get; set; }
+        public virtual DbSet<Course> Courses { get; set; }
     }
 }

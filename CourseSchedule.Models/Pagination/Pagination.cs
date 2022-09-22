@@ -1,9 +1,10 @@
 ﻿using System;
-namespace CourseSchedule.Models.Requests
+
+namespace CourseSchedule.Models.Pagination
 {
     public abstract class Pagination
     {
-        const int maxPageSize = 100;
+        const int maxPageSize = 1000;
         public int PageNumber { get; set; } = 1;
 
         private int _pageSize = 10;
@@ -15,7 +16,7 @@ namespace CourseSchedule.Models.Requests
             }
             set
             {
-                _pageSize = (value > maxPageSize) ? maxPageSize : value;
+                _pageSize = value > maxPageSize ? maxPageSize : value;
             }
         }
     }

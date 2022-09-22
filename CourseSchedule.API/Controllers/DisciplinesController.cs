@@ -6,6 +6,7 @@ using CourseSchedule.Core.DBModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
+using CourseSchedule.Models.Pagination;
 
 namespace CourseSchedule.API.Controllers
 {

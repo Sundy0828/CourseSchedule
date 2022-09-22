@@ -13,28 +13,13 @@ namespace CourseSchedule.Core.Configurations
     {
         public void Configure(EntityTypeBuilder<Institution> builder)
         {
-            builder.ToTable("Institutions"); // Not required, but I like to explicitly state the table name
+            builder.ToTable("Institutions");
 
-            builder.HasKey("Id") // Tell EF to find the field called "Id" and use it as primary key
-                .HasName("PK_Institutions"); // Primary key object name in the database (NOT column name)
+            builder.HasKey("Id").HasName("PK_Institutions");
 
             builder.Property(i => i.Name)
                 .HasMaxLength(250) // setting max length can provide huge performance gains
                 .IsRequired();
-
-            // Tell EF to find the navigation property and use this for the Disciplines collection
-            builder.Metadata
-                .FindNavigation(nameof(Institution.Disciplines))
-                // Convention based -> will find field named "Disciplines"
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
-            builder.Metadata
-                .FindNavigation(nameof(Institution.Semesters))
-                // Convention based -> will find field named "Semesters"
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
-            builder.Metadata
-                .FindNavigation(nameof(Institution.Years))
-                // Convention based -> will find field named "Years"
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

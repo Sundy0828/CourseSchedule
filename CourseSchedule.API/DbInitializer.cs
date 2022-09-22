@@ -72,9 +72,10 @@ namespace CourseSchedule.API
                     {
                         case 0: // Instutitions
                             {
-                                Institution institution = new(
-                                    (string)data["Name"]
-                                );
+                                Institution institution = new()
+                                {
+                                    Name = (string)data["Name"]
+                                };
 
                                 institutions[institution.Id] = institution;
                                 context.Add(institution);
@@ -84,18 +85,19 @@ namespace CourseSchedule.API
                             }
                         case 1:
                             {
-                                Discipline discipline = new
-                                (
-                                    (string)data["MajorCode"],
-                                    (string)data["Name"],
-                                    (bool)data["IsMajor"]
-                                );
+                                Discipline discipline = new()
+                                {
+                                    MajorCode = (string)data["MajorCode"],
+                                    Name = (string)data["Name"],
+                                    IsMajor = (bool)data["IsMajor"]
+                                };
 
                                 // Add discipline to institution
                                 Institution institution = context.Institutions.Where(i => i.Name == data["InstitutionName"].ToString()).First();
-                                institution.AddDiscipline(discipline);
+                                institution.Disciplines.Add(discipline);
 
                                 disciplines[discipline.Id] = discipline;
+
                                 context.Add(discipline);
                                 context.SaveChanges();
 

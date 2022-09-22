@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using AutoMapper;
+using CourseSchedule.Models.Pagination;
 
 namespace CourseSchedule.API.Controllers
 {
