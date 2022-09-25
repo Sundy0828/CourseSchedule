@@ -15,7 +15,6 @@ namespace CourseSchedule.Core
         {
 
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
@@ -46,8 +45,15 @@ namespace CourseSchedule.Core
             return base.SaveChanges();
         }
 
-        public virtual DbSet<Institution> Institutions { get; set; }
-        public virtual DbSet<Discipline> Disciplines { get; set; }
-        public virtual DbSet<Course> Courses { get; set; }
+        public virtual DbSet<Combination> Combination => Set<Combination>();
+        public virtual DbSet<Course> Courses => Set<Course>();
+        public virtual DbSet<CourseCombination> CourseCombinations => Set<CourseCombination>();
+        public virtual DbSet<CourseDiscipline> CourseDisciplines => Set<CourseDiscipline>();
+        public virtual DbSet<CourseSemester> CourseSemesters => Set<CourseSemester>();
+        public virtual DbSet<CourseYear> CourseYears => Set<CourseYear>();
+        public virtual DbSet<Discipline> Disciplines => Set<Discipline>();
+        public virtual DbSet<Institution> Institutions => Set<Institution>();
+        public virtual DbSet<Semester> Semesters => Set<Semester>();
+        public virtual DbSet<Year> Years => Set<Year>();
     }
 }

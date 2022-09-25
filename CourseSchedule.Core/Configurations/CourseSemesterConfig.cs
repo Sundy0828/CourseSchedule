@@ -18,12 +18,12 @@ namespace CourseSchedule.Core.Configurations
             builder.HasKey(cs => new { cs.CourseId, cs.SemesterId });
 
             builder
-                .HasOne<Course>(cs => cs.Course)
-                .WithMany(c => c.CourseSemesters)
+                .HasOne(cs => cs.Course)
+                .WithMany(c => c.Semesters)
                 .HasForeignKey(cs => cs.CourseId);
 
             builder
-                .HasOne<Semester>(cs => cs.Semester)
+                .HasOne(cs => cs.Semester)
                 .WithMany(c => c.CourseSemesters)
                 .HasForeignKey(cs => cs.SemesterId);
         }

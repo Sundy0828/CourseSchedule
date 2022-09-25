@@ -15,7 +15,12 @@ namespace CourseSchedule.Core.Configurations
         {
             builder.ToTable("Combinations");
 
-            builder.HasKey("Id").HasName("PK_Combinations");
+            builder.HasKey(x => x.Id).HasName("PK_Combinations");
+
+            builder
+                .HasMany(c => c.CourseCombinations)
+                .WithOne()
+                .HasForeignKey(c => c.CombinationId);
         }
     }
 }

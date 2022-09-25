@@ -8,13 +8,41 @@ namespace CourseSchedule.Core.DBModel
 {
     public class Semester : CourseScheduleEntity
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        private readonly HashSet<CourseSemester> courses;
+
+        public Semester(string name)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+
+            courses = new HashSet<CourseSemester>();
+        }
+
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
 
 
         // Navigation Properties
-        public Guid InstitutionId { get; set; }
-        public Institution Institution { get; set; }
-        public ICollection<CourseSemester> CourseSemesters { get; set; }
+        public Institution Institution { get; private set; }
+        public IReadOnlyCollection<CourseSemester> CourseSemesters => courses;
+
+        public void Update(string name)
+        {
+            // logic to ensure the name is valid
+            Name = name;
+        }
+
+        public void AddCourse(CourseSemester course)
+        {
+            // Some logic to handle whether a book
+            // can be added or not
+            courses.Add(course);
+        }
+
+        public void RemoveCourse(CourseSemester course)
+        {
+            // Logic
+            courses.Remove(course);
+        }
     }
 }

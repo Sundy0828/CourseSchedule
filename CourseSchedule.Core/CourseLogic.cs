@@ -24,32 +24,32 @@ namespace CourseSchedule.Core
             _disciplineLogic = disciplineLogic;
         }
 
-        public PagedList<Course> GetAll(Guid disciplineId, Pagination pagination)
+        public PagedList<Course> GetAll(Pagination pagination)
         {
             _logger.LogInformation("Get all Courses");
 
-            return PagedList<Course>.ToPagedList(_context.Courses.Where(c => c.CourseDisciplines.Any(cd => cd.DisciplineId == disciplineId)).OrderBy(c => c.Name),
+            return PagedList<Course>.ToPagedList(_context.Courses.OrderBy(c => c.Name),
                 pagination.PageNumber,
                 pagination.PageSize);
         }
 
-        public Course Get(Guid disciplineId, Guid id)
+        public Course Get(Guid id)
         {
             _logger.LogInformation("Get Course {ID}", id);
 
-            return _context.Courses.Where(c => c.Id == id && c.CourseDisciplines.Any(cd => cd.DisciplineId == disciplineId)).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id} and DisciplineId {disciplineId}");
+            return _context.Courses.Where(c => c.Id == id).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id}");
         }
 
-        public Course Create(Guid disciplineId, CourseRequest c)
+        public Course Create(CourseRequest c)
         {
             _logger.LogInformation("Create Course {Institusion}", c.Name);
 
-            Course course = new()
-            {
-                Name = c.Name, 
-                Credits = c.Credits,
-                CourseCode = c.CourseCode 
-            };
+            Course course = new
+            (
+                c.Name, 
+                c.Credits,
+                c.CourseCode 
+            );
 
             _context.Add(course);
             _context.SaveChanges();
@@ -57,15 +57,17 @@ namespace CourseSchedule.Core
             return course;
         }
 
-        public Course PutUpdate(Guid disciplineId, Guid id, CourseRequest c)
+        public Course PutUpdate(Guid id, CourseRequest c)
         {
             _logger.LogInformation("Put Update {Institusion} {ID}", c.Name,  id);
 
-            Course course = _context.Courses.Where(c => c.Id == id && c.CourseDisciplines.Any(cd => cd.DisciplineId == disciplineId)).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id} and DisciplineId {disciplineId}");
+            Course course = _context.Courses.Where(c => c.Id == id ).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id}");
 
-            course.Name = c.Name;
-            course.Credits = c.Credits;
-            course.CourseCode = c.CourseCode;
+            course.Update(
+                c.Name,
+                c.Credits,
+                c.CourseCode
+            );
 
             _context.Update(course);
             _context.SaveChanges();
@@ -73,15 +75,17 @@ namespace CourseSchedule.Core
             return course;
         }
 
-        public Course PatchUpdate(Guid disciplineId, Guid id, CourseRequest c)
+        public Course PatchUpdate( Guid id, CourseRequest c)
         {
             _logger.LogInformation("Patch Update {Institusion} {ID}", c.Name, id);
 
-            Course course = _context.Courses.Where(c => c.Id == id && c.CourseDisciplines.Any(cd => cd.DisciplineId == disciplineId)).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id} and DisciplineId {disciplineId}");
-            
-            course.Name = c.Name;
-            course.Credits = c.Credits;
-            course.CourseCode = c.CourseCode;
+            Course course = _context.Courses.Where(c => c.Id == id).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id}");
+
+            course.Update(
+                c.Name,
+                c.Credits,
+                c.CourseCode
+            );
 
             _context.Update(course);
             _context.SaveChanges();
@@ -89,11 +93,11 @@ namespace CourseSchedule.Core
             return course;
         }
 
-        public void Delete(Guid disciplineId, Guid id)
+        public void Delete(Guid id)
         {
             _logger.LogInformation("Delete Course {ID}", id);
 
-            Course course = _context.Courses.Where(c => c.Id == id && c.CourseDisciplines.Any(cd => cd.DisciplineId == disciplineId)).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id} and DisciplineId {disciplineId}");
+            Course course = _context.Courses.Where(c => c.Id == id).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id}");
 
             _context.Remove(course);
             _context.SaveChanges();

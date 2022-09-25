@@ -2,9 +2,9 @@
 {
     public class InstitutionResponse : ResponseEntity
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public Guid PublicKey { get; set; }
-        public Guid SecretKey { get; set; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public Guid PublicKey { get; private set; }
+        public Guid SecretKey { get; private set; }
     }
 }

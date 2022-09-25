@@ -6,6 +6,6 @@ namespace CourseSchedule.Models.Requests
     {
         [Required]
         [StringLength(maximumLength: 256, MinimumLength = 2)]
-        public string Name { get; set; }
+        public string Name { get; private set; }
     }
 }

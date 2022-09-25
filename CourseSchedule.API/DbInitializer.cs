@@ -20,7 +20,7 @@ namespace CourseSchedule.API
         public void Initialize()
         {
             using IServiceScope serviceScope = _scopeFactory.CreateScope();
-            using CourseScheduleDBContext context = serviceScope.ServiceProvider.GetService<CourseScheduleDBContext>();
+            using CourseScheduleDBContext context = serviceScope.ServiceProvider.GetService<CourseScheduleDBContext>() ?? throw new NullReferenceException("Invalid DBConext");
             _logger.LogInformation("Attempting to initialize data storage");
             context.Database.Migrate();
 
@@ -37,7 +37,7 @@ namespace CourseSchedule.API
 
         public void SeedData(CourseScheduleDBContext context)
         {
-            if (context.Institutions.Count() > 0)
+            if (context.Institutions.Any())
             {
                 _logger.LogInformation("Databse has already been seeded.");
                 return;
@@ -61,21 +61,21 @@ namespace CourseSchedule.API
             for (int file = 0; file < files.Count; file++)
             {
                 string text = File.ReadAllText(files[file]);
-                Dictionary<string, object> deserializedInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(text);
+                Dictionary<string, object> deserializedInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(text) ?? throw new NullReferenceException("Invalid seed file json.");
                 JArray infoList = (JArray)deserializedInfo["Data"];
 
                 _logger.LogInformation("Attempting to add the data for {files}.", files[file]);
 
-                foreach (JObject data in infoList)
+                foreach (JObject data in infoList.Cast<JObject>())
                 {
                     switch (file)
                     {
                         case 0: // Instutitions
                             {
-                                Institution institution = new()
-                                {
-                                    Name = (string)data["Name"]
-                                };
+                                Institution institution = new
+                                (
+                                    (string)data["Name"]
+                                );
 
                                 institutions[institution.Id] = institution;
                                 context.Add(institution);
@@ -85,16 +85,16 @@ namespace CourseSchedule.API
                             }
                         case 1:
                             {
-                                Discipline discipline = new()
-                                {
-                                    MajorCode = (string)data["MajorCode"],
-                                    Name = (string)data["Name"],
-                                    IsMajor = (bool)data["IsMajor"]
-                                };
+                                Discipline discipline = new
+                                (
+                                    (string)data["Name"],
+                                    (string)data["MajorCode"],
+                                    (bool)data["IsMajor"]
+                                );
 
                                 // Add discipline to institution
                                 Institution institution = context.Institutions.Where(i => i.Name == data["InstitutionName"].ToString()).First();
-                                institution.Disciplines.Add(discipline);
+                                institution.AddDiscipline(discipline);
 
                                 disciplines[discipline.Id] = discipline;
 

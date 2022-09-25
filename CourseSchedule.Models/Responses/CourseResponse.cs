@@ -2,9 +2,9 @@
 {
     public class CourseResponse : ResponseEntity
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public int Credits { get; set; }
-        public string CourseCode { get; set; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public int Credits { get; private set; }
+        public string CourseCode { get; private set; }
     }
 }

@@ -15,7 +15,7 @@ namespace CourseSchedule.Core.Configurations
         {
             builder.ToTable("Institutions");
 
-            builder.HasKey("Id").HasName("PK_Institutions");
+            builder.HasKey(x => x.Id).HasName("PK_Institutions");
 
             builder.Property(i => i.Name)
                 .HasMaxLength(250) // setting max length can provide huge performance gains

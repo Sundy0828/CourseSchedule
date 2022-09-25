@@ -43,10 +43,10 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Create institution {Institusion}", i.Name);
 
-            Institution institution = new()
-            {
-                Name = i.Name
-            };
+            Institution institution = new
+            (
+                i.Name
+            );
 
             _context.Add(institution);
             _context.SaveChanges();
@@ -60,7 +60,7 @@ namespace CourseSchedule.Core
 
             Institution institution = _context.Institutions.Where(i => i.Id == id).FirstOrDefault() ?? throw new NotFoundException($"Institution with Id {id} was not found");
 
-            institution.Name = i.Name;
+            institution.Update(i.Name);
 
             _context.Update(institution);
             _context.SaveChanges();
@@ -74,7 +74,7 @@ namespace CourseSchedule.Core
 
             Institution institution = _context.Institutions.Where(i => i.Id == id).FirstOrDefault() ?? throw new NotFoundException($"Institution with Id {id} was not found");
 
-            institution.Name = i.Name;
+            institution.Update(i.Name);
 
             _context.Update(institution);
             _context.SaveChanges();

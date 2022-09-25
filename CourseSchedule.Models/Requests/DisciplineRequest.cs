@@ -7,10 +7,10 @@ namespace CourseSchedule.Models.Requests
         [Required]
 
         [StringLength(maximumLength: 256, MinimumLength = 2)]
-        public string Name { get; set; }
+        public string Name { get; private set; }
         [Required]
-        public string MajorCode { get; set; }
+        public string MajorCode { get; private set; }
         [Required]
-        public bool IsMajor { get; set; }
+        public bool IsMajor { get; private set; }
     }
 }

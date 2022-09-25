@@ -2,8 +2,8 @@
 {
     public class DisciplineResponse : ResponseEntity
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public bool IsMajor { get; set; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public bool IsMajor { get; private set; }
     }
 }

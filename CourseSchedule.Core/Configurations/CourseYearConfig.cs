@@ -19,7 +19,7 @@ namespace CourseSchedule.Core.Configurations
 
             builder
                 .HasOne<Course>(cy => cy.Course)
-                .WithMany(c => c.CourseYears)
+                .WithMany(c => c.Years)
                 .HasForeignKey(cy => cy.CourseId);
 
             builder

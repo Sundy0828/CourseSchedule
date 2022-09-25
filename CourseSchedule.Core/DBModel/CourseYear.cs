@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace CourseSchedule.Core.DBModel
 {
-    public class CourseYear
+    public class CourseYear : CourseScheduleEntity
     {
-
-        public Guid CourseId { get; set; }
-        public Course Course { get; set; }
-        public Guid YearId { get; set; }
-        public Year Year { get; set; }
+        public CourseYear(Guid courseId, Guid yearId)
+        {
+            CourseId = courseId;
+            YearId = yearId;
+        }
+        public Guid CourseId { get; private set; }
+        public Course Course { get; private set; }
+        public Guid YearId { get; private set; }
+        public Year Year { get; private set; }
     }
 }

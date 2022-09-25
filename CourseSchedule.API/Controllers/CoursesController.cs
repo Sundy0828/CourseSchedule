@@ -12,7 +12,7 @@ namespace CourseSchedule.API.Controllers
 {
     [ApiController]
 
-    [Route("Disciplines/{DisciplineId}/Courses")]
+    [Route("Courses")]
     public class CoursesController : ControllerBase
     {
         private readonly ILogger<CoursesController> _logger;
@@ -29,9 +29,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Creates a new course",
             Description = "This endpoint allows the create of a new course.")]
         [SwaggerResponse((int)HttpStatusCode.Created, Description = "Returns a created course.", Type = typeof(CourseResponse))]
-        public IActionResult Create(Guid DisciplineId, [FromBody] CourseRequest course)
+        public IActionResult Create([FromBody] CourseRequest course)
         {
-            return Created("", _logic.Create(DisciplineId, course));
+            return Created("", _logic.Create(course));
         }
 
         [HttpGet]
@@ -41,7 +41,7 @@ namespace CourseSchedule.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns all courses.", Type = typeof(PagedList<CourseResponse>))]
         public IActionResult Get(Guid DisciplineId, [FromQuery] CoursePagination pagination)
         {
-            var pagedCourse = _logic.GetAll(DisciplineId, pagination);
+            var pagedCourse = _logic.GetAll(pagination);
 
             var metadata = new
             {
@@ -63,9 +63,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Retrieves an course",
             Description = "This endpoint allows the retrieval of a single course.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns a single course.", Type = typeof(CourseResponse))]
-        public IActionResult Get(Guid DisciplineId, Guid CourseId)
+        public IActionResult Get(Guid CourseId)
         {
-            return Ok(_logic.Get(DisciplineId, CourseId));
+            return Ok(_logic.Get(CourseId));
         }
 
         [HttpPatch("{CourseId}")]
@@ -73,9 +73,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Updates an existing course",
             Description = "This endpoint allows the update of an existing course.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated course.", Type = typeof(CourseResponse))]
-        public IActionResult Patch(Guid DisciplineId, Guid CourseId, [FromBody] CourseRequest course)
+        public IActionResult Patch(Guid CourseId, [FromBody] CourseRequest course)
         {
-            return Ok(_logic.PatchUpdate(DisciplineId, CourseId, course));
+            return Ok(_logic.PatchUpdate(CourseId, course));
         }
 
         [HttpPut("{CourseId}")]
@@ -83,9 +83,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Updates an existing course",
             Description = "This endpoint allows the update of an existing course.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated course.", Type = typeof(CourseResponse))]
-        public IActionResult Put(Guid DisciplineId, Guid CourseId, [FromBody] CourseRequest course)
+        public IActionResult Put(Guid CourseId, [FromBody] CourseRequest course)
         {
-            return Ok(_logic.PutUpdate(DisciplineId, CourseId, course));
+            return Ok(_logic.PutUpdate( CourseId, course));
         }
 
         [HttpDelete("{CourseId}")]
@@ -93,9 +93,9 @@ namespace CourseSchedule.API.Controllers
             Summary = "Deletes an course",
             Description = "This endpoint allows the deletion of an course.")]
         [SwaggerResponse((int)HttpStatusCode.NoContent, Description = "Successfully deleted the field.")]
-        public IActionResult Delete(Guid DisciplineId, Guid CourseId)
+        public IActionResult Delete(Guid CourseId)
         {
-            _logic.Delete(DisciplineId, CourseId);
+            _logic.Delete(CourseId);
             return NoContent();
         }
     }

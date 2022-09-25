@@ -15,16 +15,21 @@ namespace CourseSchedule.Core.Configurations
         {
             builder.ToTable("Semesters");
 
-            builder.HasKey("Id").HasName("PK_Semesters");
+            builder.HasKey(x => x.Id).HasName("PK_Semesters");
 
             builder.Property(s => s.Name)
                 .HasMaxLength(250) // setting max length can provide huge performance gains
                 .IsRequired();
 
             builder
-                .HasOne<Institution>(i => i.Institution)
+                .HasOne(i => i.Institution)
                 .WithMany(s => s.Semesters)
-                .HasForeignKey(s => s.InstitutionId);
+                .HasForeignKey(s => s.Institution.Id);
+
+            builder
+                .HasMany(c => c.CourseSemesters)
+                .WithOne()
+                .HasForeignKey(c => c.SemesterId);
         }
     }
 }

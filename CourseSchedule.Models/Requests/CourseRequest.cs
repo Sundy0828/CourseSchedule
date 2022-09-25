@@ -7,11 +7,11 @@ namespace CourseSchedule.Models.Requests
         [Required]
 
         [StringLength(maximumLength: 256, MinimumLength = 2)]
-        public string Name { get; set; }
+        public string Name { get; private set; }
         [Required]
         [Range(0, 4, ErrorMessage = "Please enter valid amount of credits (0-4)")]
-        public int Credits { get; set; }
+        public int Credits { get; private set; }
         [Required]
-        public string CourseCode { get; set; }
+        public string CourseCode { get; private set; }
     }
 }
