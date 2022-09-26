@@ -46,14 +46,14 @@ namespace CourseSchedule.Core
 
             Institution institution = _institutionLogic.Get(institutionId);
 
-            Discipline discipline = new Discipline
-            (
-                d.Name,
-                d.MajorCode,
-                d.IsMajor
-            );
+            Discipline discipline = new(institution)
+            {
+                Name = d.Name,
+                MajorCode = d.MajorCode,
+                IsMajor = d.IsMajor
+            };
 
-            institution.AddDiscipline(discipline);
+            institution.Disciplines.Add(discipline);
 
             _context.Add(discipline);
             _context.SaveChanges();
@@ -67,11 +67,9 @@ namespace CourseSchedule.Core
 
             Discipline discipline = _context.Disciplines.Where(d => d.Id == id && d.Institution.Id == institutionId).FirstOrDefault() ?? throw new NotFoundException($"Discipline was not found with Id {id} and InstitutionId {institutionId}");
             
-            discipline.Update(
-                d.Name,
-                d.MajorCode,
-                d.IsMajor
-            );
+            discipline.Name = d.Name;
+            discipline.MajorCode = d.MajorCode;
+            discipline.IsMajor = d.IsMajor;
 
             _context.Update(discipline);
             _context.SaveChanges();
@@ -85,11 +83,9 @@ namespace CourseSchedule.Core
 
             Discipline discipline = _context.Disciplines.Where(d => d.Id == id && d.Institution.Id == institutionId).FirstOrDefault() ?? throw new NotFoundException($"Discipline was not found with Id {id} and InstitutionId {institutionId}");
 
-            discipline.Update(
-                d.Name,
-                d.MajorCode,
-                d.IsMajor
-            );
+            discipline.Name = d.Name;
+            discipline.MajorCode = d.MajorCode;
+            discipline.IsMajor = d.IsMajor;
 
             _context.Update(discipline);
             _context.SaveChanges();

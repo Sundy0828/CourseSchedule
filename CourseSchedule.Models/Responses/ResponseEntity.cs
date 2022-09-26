@@ -2,7 +2,7 @@
 {
     public class ResponseEntity
     {
-        public DateTime Created { get; private set; }
-        public DateTime Modified { get; private set; }
+        public DateTime Created { get; set; }
+        public DateTime Modified { get; set; }
     }
 }

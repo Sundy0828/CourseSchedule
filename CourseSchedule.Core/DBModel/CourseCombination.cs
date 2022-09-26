@@ -10,15 +10,14 @@ namespace CourseSchedule.Core.DBModel
 {
     public class CourseCombination : CourseScheduleEntity
     {
-        public CourseCombination(Guid courseId, Guid combinationId)
+        public CourseCombination()
         {
-            CourseId = courseId;
-            CombinationId = combinationId;
+            
         }
-        public Guid CourseId { get; private set; }
-        public Course Course { get; private set; }
-        public Guid CombinationId { get; private set; }
-        public Combination Combination { get; private set; }
-        public Guid SubCombinationId { get; private set; }
+        public Guid CourseId { get; set; }
+        public Course Course { get; set; }
+        public Guid CombinationId { get; set; }
+        public Combination Combination { get; set; }
+        public Guid? SubCombinationId { get; set; }
     }
 }

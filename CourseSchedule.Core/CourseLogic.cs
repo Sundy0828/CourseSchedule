@@ -44,12 +44,12 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Create Course {Institusion}", c.Name);
 
-            Course course = new
-            (
-                c.Name, 
-                c.Credits,
-                c.CourseCode 
-            );
+            Course course = new()
+            {
+                Name = c.Name,
+                Credits = c.Credits,
+                CourseCode = c.CourseCode
+            };
 
             _context.Add(course);
             _context.SaveChanges();
@@ -63,11 +63,9 @@ namespace CourseSchedule.Core
 
             Course course = _context.Courses.Where(c => c.Id == id ).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id}");
 
-            course.Update(
-                c.Name,
-                c.Credits,
-                c.CourseCode
-            );
+            course.Name = c.Name;
+            course.Credits = c.Credits;
+            course.CourseCode = c.CourseCode;
 
             _context.Update(course);
             _context.SaveChanges();
@@ -81,11 +79,9 @@ namespace CourseSchedule.Core
 
             Course course = _context.Courses.Where(c => c.Id == id).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id}");
 
-            course.Update(
-                c.Name,
-                c.Credits,
-                c.CourseCode
-            );
+            course.Name = c.Name;
+            course.Credits = c.Credits;
+            course.CourseCode = c.CourseCode;
 
             _context.Update(course);
             _context.SaveChanges();

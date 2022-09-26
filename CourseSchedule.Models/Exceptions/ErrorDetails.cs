@@ -4,8 +4,8 @@ namespace CourseSchedule.Models.Exceptions
 {
     public class ErrorDetails
     {
-        public int StatusCode { get; private set; }
-        public string Message { get; private set; }
+        public int StatusCode { get; set; }
+        public string Message { get; set; }
 
         public ErrorDetails(int statusCode, string message)
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace CourseSchedule.Core.DBModel
 {
@@ -14,40 +15,18 @@ namespace CourseSchedule.Core.DBModel
     }
     public class Combination : CourseScheduleEntity
     {
-        private readonly HashSet<CourseCombination> courses;
-        public Combination(LogicalOperator logicalOperator)
+        public Combination()
         {
             Id = Guid.NewGuid();
-            LogicalOperator = logicalOperator;
+            LogicalOperator = LogicalOperator.AND;
 
-            courses = new HashSet<CourseCombination>();
+            CourseCombinations = new HashSet<CourseCombination>();
         }
-
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public LogicalOperator LogicalOperator { get; private set; }
+        public LogicalOperator LogicalOperator { get; set; }
 
         // Navigation Properties
-        public IReadOnlyCollection<CourseCombination> CourseCombinations => courses;
-
-
-        public void Update(LogicalOperator logicalOperator)
-        {
-            // logic to ensure the name is valid
-            LogicalOperator = logicalOperator;
-        }
-
-        public void AddCourse(CourseCombination course)
-        {
-            // Some logic to handle whether a book
-            // can be added or not
-            courses.Add(course);
-        }
-
-        public void RemoveCourse(CourseCombination course)
-        {
-            // Logic
-            courses.Remove(course);
-        }
+        public ICollection<CourseCombination> CourseCombinations { get; set; }
     }
 }

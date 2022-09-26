@@ -55,15 +55,19 @@ static void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<InstitutionLogic>();
     builder.Services.AddScoped<DisciplineLogic>();
     builder.Services.AddScoped<CourseLogic>();
+    builder.Services.AddScoped<YearLogic>();
 
     var configuration = new MapperConfiguration(cfg =>
     {
         cfg.CreateMap<Institution, InstitutionRequest>();
         cfg.CreateMap<Discipline, DisciplineRequest>();
         cfg.CreateMap<Course, CourseRequest>();
+        cfg.CreateMap<Year, YearRequest>();
+
         cfg.CreateMap<Institution, InstitutionResponse>();
         cfg.CreateMap<Discipline, DisciplineResponse>();
         cfg.CreateMap<Course, CourseResponse>();
+        cfg.CreateMap<Year, YearResponse>();
     });
     // only during development, validate your mappings; remove it before release
     configuration.AssertConfigurationIsValid();
