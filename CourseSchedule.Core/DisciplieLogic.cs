@@ -46,7 +46,7 @@ namespace CourseSchedule.Core
 
             Institution institution = _institutionLogic.Get(institutionId);
 
-            Discipline discipline = new(institution)
+            Discipline discipline = new()
             {
                 Name = d.Name,
                 MajorCode = d.MajorCode,

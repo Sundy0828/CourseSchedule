@@ -10,14 +10,12 @@ namespace CourseSchedule.Core.DBModel
 {
     public class Discipline : CourseScheduleEntity
     {
-        public Discipline(Institution i)
+        public Discipline()
         {
             Id = Guid.NewGuid();
             Name = "";
             MajorCode = "";
             IsMajor = true;
-
-            Institution = i;
 
             CourseDisciplines = new HashSet<CourseDiscipline>();
         }

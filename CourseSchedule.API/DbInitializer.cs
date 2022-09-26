@@ -88,7 +88,7 @@ namespace CourseSchedule.API
                                 // Add discipline to institution
                                 Institution institution = context.Institutions.Where(i => i.Name == data["InstitutionName"].ToString()).First();
 
-                                Discipline discipline = new(institution)
+                                Discipline discipline = new()
                                 {
                                     Name = (string)data["Name"],
                                     MajorCode = (string)data["MajorCode"],
