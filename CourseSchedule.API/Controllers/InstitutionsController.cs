@@ -9,11 +9,17 @@ using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using AutoMapper;
 using CourseSchedule.Models.Pagination;
+using CourseSchedule.Models.Exceptions;
 
 namespace CourseSchedule.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Bad Request", Type = typeof(ErrorDetails))]
+    [SwaggerResponse((int)HttpStatusCode.Unauthorized, Description = "Unauthorized Request", Type = typeof(ErrorDetails))]
+    [SwaggerResponse((int)HttpStatusCode.Forbidden, Description = "Forbidden Request", Type = typeof(ErrorDetails))]
+    [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Item was not found", Type = typeof(ErrorDetails))]
+    [SwaggerResponse((int)HttpStatusCode.InternalServerError, Description = "Internal Server Error", Type = typeof(ErrorDetails))]
     public class InstitutionsController : ControllerBase
     {
         private readonly ILogger<InstitutionsController> _logger;

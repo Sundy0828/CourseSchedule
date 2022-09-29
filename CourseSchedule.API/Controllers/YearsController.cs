@@ -7,11 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using CourseSchedule.Models.Pagination;
+using Microsoft.AspNetCore.Authorization;
+using CourseSchedule.Models.Exceptions;
 
 namespace CourseSchedule.API.Controllers
 {
     [ApiController]
-
+    [Authorize]
+    [SwaggerResponse((int)HttpStatusCode.BadRequest, Description = "Bad Request", Type = typeof(ErrorDetails))]
+    [SwaggerResponse((int)HttpStatusCode.Unauthorized, Description = "Unauthorized Request", Type = typeof(ErrorDetails))]
+    [SwaggerResponse((int)HttpStatusCode.Forbidden, Description = "Forbidden Request", Type = typeof(ErrorDetails))]
+    [SwaggerResponse((int)HttpStatusCode.NotFound, Description = "Item was not found", Type = typeof(ErrorDetails))]
+    [SwaggerResponse((int)HttpStatusCode.InternalServerError, Description = "Internal Server Error", Type = typeof(ErrorDetails))]
     [Route("Institutions/{InstitutionId}/Years")]
     public class YearsController : ControllerBase
     {

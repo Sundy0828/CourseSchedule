@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Linq;
 
 try
 {
@@ -103,6 +104,7 @@ static void ConfigureServices(WebApplicationBuilder builder)
         }
 
         c.SchemaFilter<SwaggerFilter>();
+        c.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
     });
 
     builder.Services.AddServiceInitializer<DbInitializer>();
@@ -139,7 +141,42 @@ static void ConfigureApplication(WebApplication app)
         endpoints.MapControllers();
     });
 
-    app.UseSwagger();
+    app.UseSwagger(c =>
+    {
+        c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+        {
+            swaggerDoc.Components.SecuritySchemes = new Dictionary<string, OpenApiSecurityScheme>()
+            {
+                {
+                    "InstitutionId", new OpenApiSecurityScheme
+                    {
+                        Description = "Institution Id",
+                        Name = "X-INSTITUTION-ID",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey
+                    }
+                }
+            };
+
+            swaggerDoc.SecurityRequirements = new List<OpenApiSecurityRequirement>()
+            {
+                new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "InstitutionId"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                }
+            };
+        });
+    });
 
     app.UseSwaggerUI(c =>
     {
