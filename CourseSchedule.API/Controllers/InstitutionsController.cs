@@ -101,5 +101,27 @@ namespace CourseSchedule.API.Controllers
             _logic.Delete(InstitutionId);
             return NoContent();
         }
+
+        [HttpPost("{InstitutionId}/Discipline/{DisciplineId}")]
+        [SwaggerOperation(
+            Summary = "Adds a discipline as a requirement for a institution",
+            Description = "This endpoint adds a discipline as a requirement for a institution.")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Successfully added discipline to institution.")]
+        public IActionResult AddCourse(Guid InstitutionId, Guid DisciplineId)
+        {
+            _logic.AddDiscipline(InstitutionId, DisciplineId);
+            return Ok();
+        }
+
+        [HttpDelete("{InstitutionId}/Discipline/{DisciplineId}")]
+        [SwaggerOperation(
+            Summary = "Removes a discipline as a requirement for a institution",
+            Description = "This endpoint removes a discipline as a requirement for a institution.")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Successfully removed discipline from institution.")]
+        public IActionResult DeleteCourse(Guid InstitutionId, Guid DisciplineId)
+        {
+            _logic.RemoveDiscipline(InstitutionId, DisciplineId);
+            return Ok();
+        }
     }
 }

@@ -61,7 +61,7 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Put Update {Institusion} {ID}", c.Name,  id);
 
-            Course course = _context.Courses.Where(c => c.Id == id ).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id}");
+            Course course = Get(id);
 
             course.Name = c.Name;
             course.Credits = c.Credits;
@@ -77,7 +77,7 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Patch Update {Institusion} {ID}", c.Name, id);
 
-            Course course = _context.Courses.Where(c => c.Id == id).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id}");
+            Course course = Get(id);
 
             course.Name = c.Name;
             course.Credits = c.Credits;
@@ -93,9 +93,69 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Delete Course {ID}", id);
 
-            Course course = _context.Courses.Where(c => c.Id == id).FirstOrDefault() ?? throw new NotFoundException($"Course was not found with Id {id}");
+            Course course = Get(id);
 
             _context.Remove(course);
+            _context.SaveChanges();
+        }
+
+        public void AddYear(Guid id, Guid yearId)
+        {
+            _logger.LogInformation("Delete Year {ID}", id);
+
+            CourseYear? exists = _context.CourseYears.Where(x => x.CourseId == id && x.YearId == yearId).FirstOrDefault();
+            if (exists != null)
+            {
+                throw new BadRequestException($"Course/Year connection was found with YearId {id} and CourseId {yearId}");
+            }
+
+            CourseYear cd = new()
+            {
+                CourseId = id,
+                YearId = yearId
+            };
+
+            _context.Add(cd);
+            _context.SaveChanges();
+        }
+
+        public void RemoveYear(Guid id, Guid yearId)
+        {
+            _logger.LogInformation("Delete Year {ID}", id);
+
+            CourseYear cd = _context.CourseYears.Where(x => x.CourseId == id && x.YearId == yearId).FirstOrDefault() ?? throw new NotFoundException($"Course/Year connection was not found with YearId {id} and CourseId {yearId}");
+
+            _context.Remove(cd);
+            _context.SaveChanges();
+        }
+
+        public void AddSemester(Guid id, Guid semesterId)
+        {
+            _logger.LogInformation("Delete Semester {ID}", id);
+
+            CourseSemester? exists = _context.CourseSemesters.Where(x => x.CourseId == id && x.SemesterId == semesterId).FirstOrDefault();
+            if (exists != null)
+            {
+                throw new BadRequestException($"Course/Semester connection was found with SemesterId {id} and CourseId {semesterId}");
+            }
+
+            CourseSemester cd = new()
+            {
+                CourseId = id,
+                SemesterId = semesterId
+            };
+
+            _context.Add(cd);
+            _context.SaveChanges();
+        }
+
+        public void RemoveSemester(Guid id, Guid semesterId)
+        {
+            _logger.LogInformation("Delete Semester {ID}", id);
+
+            CourseSemester cd = _context.CourseSemesters.Where(x => x.CourseId == id && x.SemesterId == semesterId).FirstOrDefault() ?? throw new NotFoundException($"Course/Semester connection was not found with SemesterId {id} and CourseId {semesterId}");
+
+            _context.Remove(cd);
             _context.SaveChanges();
         }
     }

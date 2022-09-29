@@ -103,20 +103,22 @@ namespace CourseSchedule.API.Controllers
         [SwaggerOperation(
             Summary = "Adds a course as a requirement for a discipline",
             Description = "This endpoint adds a course as a requirement for a discipline.")]
-        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.", Type = typeof(DisciplineResponse))]
-        public IActionResult AddCourse(Guid InstitutionId, Guid DisciplineId, [FromBody] DisciplineRequest discipline)
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.")]
+        public IActionResult AddCourse(Guid DisciplineId, Guid CourseId)
         {
-            return Ok(_logic.PutUpdate(InstitutionId, DisciplineId, discipline));
+            _logic.AddCourse(DisciplineId, CourseId);
+            return Ok();
         }
 
         [HttpDelete("{DisciplineId}/Course/{CourseId}")]
         [SwaggerOperation(
             Summary = "Removes a course as a requirement for a discipline",
             Description = "This endpoint removes a course as a requirement for a discipline.")]
-        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.", Type = typeof(DisciplineResponse))]
-        public IActionResult DeleteCourse(Guid InstitutionId, Guid DisciplineId, [FromBody] DisciplineRequest discipline)
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns an updated discipline.")]
+        public IActionResult DeleteCourse(Guid DisciplineId, Guid CourseId)
         {
-            return Ok(_logic.PutUpdate(InstitutionId, DisciplineId, discipline));
+            _logic.RemoveCourse(DisciplineId, CourseId);
+            return Ok();
         }
     }
 }

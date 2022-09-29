@@ -45,6 +45,11 @@ namespace CourseSchedule.Core
             _logger.LogInformation("Create Discipline {Institusion}", d.Name);
 
             Institution institution = _institutionLogic.Get(institutionId);
+            Discipline? exists = _context.Disciplines.Where(x => x.Institution.Id == institutionId && ((x.MajorCode == d.MajorCode || x.Name == d.Name) && x.IsMajor == d.IsMajor)).FirstOrDefault();
+            if (exists != null)
+            {
+                throw new BadRequestException($"Discipline already exists");
+            }
 
             Discipline discipline = new()
             {
@@ -65,7 +70,7 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Put Update {Institusion} {ID}", d.Name,  id);
 
-            Discipline discipline = _context.Disciplines.Where(d => d.Id == id && d.Institution.Id == institutionId).FirstOrDefault() ?? throw new NotFoundException($"Discipline was not found with Id {id} and InstitutionId {institutionId}");
+            Discipline discipline = Get(institutionId, id);
             
             discipline.Name = d.Name;
             discipline.MajorCode = d.MajorCode;
@@ -81,7 +86,7 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Patch Update {Institusion} {ID}", d.Name, id);
 
-            Discipline discipline = _context.Disciplines.Where(d => d.Id == id && d.Institution.Id == institutionId).FirstOrDefault() ?? throw new NotFoundException($"Discipline was not found with Id {id} and InstitutionId {institutionId}");
+            Discipline discipline = Get(institutionId, id);
 
             discipline.Name = d.Name;
             discipline.MajorCode = d.MajorCode;
@@ -97,9 +102,39 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Delete Discipline {ID}", id);
 
-            Discipline discipline = _context.Disciplines.Where(d => d.Id == id && d.Institution.Id == institutionId).FirstOrDefault() ?? throw new NotFoundException($"Discipline was not found with Id {id} and InstitutionId {institutionId}");
+            Discipline discipline = Get(institutionId, id);
 
             _context.Remove(discipline);
+            _context.SaveChanges();
+        }
+
+        public void AddCourse(Guid id, Guid courseId)
+        {
+            _logger.LogInformation("Delete Discipline {ID}", id);
+
+            CourseDiscipline? exists = _context.CourseDisciplines.Where(x => x.CourseId == courseId && x.DisciplineId == id).FirstOrDefault();
+            if (exists != null)
+            {
+                throw new BadRequestException($"Course/Discipline connection was found with DisciplineId {id} and CourseId {courseId}");
+            }
+
+            CourseDiscipline cd = new()
+            {
+                CourseId = courseId,
+                DisciplineId = id
+            };
+            
+            _context.Add(cd);
+            _context.SaveChanges();
+        }
+
+        public void RemoveCourse(Guid id, Guid courseId)
+        {
+            _logger.LogInformation("Delete Discipline {ID}", id);
+
+            CourseDiscipline cd = _context.CourseDisciplines.Where(x => x.CourseId == courseId && x.DisciplineId == id).FirstOrDefault() ?? throw new NotFoundException($"Course/Discipline connection was not found with DisciplineId {id} and CourseId {courseId}");
+
+            _context.Remove(cd);
             _context.SaveChanges();
         }
     }

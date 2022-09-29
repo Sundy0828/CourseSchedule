@@ -39,7 +39,7 @@ namespace CourseSchedule.API.Controllers
             Summary = "Gets all courses",
             Description = "This endpoint allows the retreival of a list of courses.")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "Returns all courses.", Type = typeof(PagedList<CourseResponse>))]
-        public IActionResult Get(Guid DisciplineId, [FromQuery] CoursePagination pagination)
+        public IActionResult Get(Guid YearId, [FromQuery] CoursePagination pagination)
         {
             var pagedCourse = _logic.GetAll(pagination);
 
@@ -97,6 +97,50 @@ namespace CourseSchedule.API.Controllers
         {
             _logic.Delete(CourseId);
             return NoContent();
+        }
+
+        [HttpPost("{CourseId}/Year/{YearId}")]
+        [SwaggerOperation(
+            Summary = "Adds a year as a requirement for a course",
+            Description = "This endpoint adds a year as a requirement for a course.")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Successfully added year to course.")]
+        public IActionResult AddCourse(Guid CourseId, Guid YearId)
+        {
+            _logic.AddYear(CourseId, YearId);
+            return Ok();
+        }
+
+        [HttpDelete("{CourseId}/Year/{YearId}")]
+        [SwaggerOperation(
+            Summary = "Removes a year as a requirement for a course",
+            Description = "This endpoint removes a year as a requirement for a course.")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Successfully removed year from course.")]
+        public IActionResult DeleteCourse(Guid CourseId, Guid YearId)
+        {
+            _logic.RemoveYear(CourseId, YearId);
+            return Ok();
+        }
+
+        [HttpPost("{CourseId}/Semester/{SemesterId}")]
+        [SwaggerOperation(
+            Summary = "Adds a semester as a requirement for a course",
+            Description = "This endpoint adds a semester as a requirement for a course.")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Successfully added semester to course.")]
+        public IActionResult AddSemester(Guid CourseId, Guid SemesterId)
+        {
+            _logic.AddSemester(CourseId, SemesterId);
+            return Ok();
+        }
+
+        [HttpDelete("{CourseId}/Semester/{SemesterId}")]
+        [SwaggerOperation(
+            Summary = "Removes a semester as a requirement for a course",
+            Description = "This endpoint removes a semester as a requirement for a course.")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "Successfully removed semester from course.")]
+        public IActionResult DeleteSemester(Guid CourseId, Guid SemesterId)
+        {
+            _logic.RemoveSemester(CourseId, SemesterId);
+            return Ok();
         }
     }
 }

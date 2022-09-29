@@ -11,6 +11,10 @@ namespace CourseSchedule.UnitTests
     public class InMemoryDatabaseTest : IDisposable
     {
         protected readonly InstitutionLogic _institutionLogic;
+        protected readonly DisciplineLogic _disciplineLogic;
+        protected readonly CourseLogic _courseLogic;
+        protected readonly SemesterLogic _semesterLogic;
+        protected readonly YearLogic _yearLogic;
         protected readonly CourseScheduleDBContext _context;
 
         private readonly DbConnection _connection;
@@ -31,6 +35,10 @@ namespace CourseSchedule.UnitTests
             _context.SaveChanges();
 
             _institutionLogic = new InstitutionLogic(Mock.Of<ILogger<InstitutionLogic>>(), _context);
+            _disciplineLogic = new DisciplineLogic(Mock.Of<ILogger<DisciplineLogic>>(), _context, _institutionLogic);
+            _courseLogic = new CourseLogic(Mock.Of<ILogger<CourseLogic>>(), _context, _disciplineLogic);
+            _semesterLogic = new SemesterLogic(Mock.Of<ILogger<SemesterLogic>>(), _context, _institutionLogic);
+            _yearLogic = new YearLogic(Mock.Of<ILogger<YearLogic>>(), _context, _institutionLogic);
         }
 
         protected DbContextOptions<CourseScheduleDBContext> ContextOptions { get; }

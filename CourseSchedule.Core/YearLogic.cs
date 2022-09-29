@@ -45,6 +45,11 @@ namespace CourseSchedule.Core
             _logger.LogInformation("Create Year {Institusion}", y.Name);
 
             Institution institution = _institutionLogic.Get(institutionId);
+            Year? exists = _context.Years.Where(x => x.Institution.Id == institutionId && x.Name == y.Name).FirstOrDefault();
+            if (exists != null)
+            {
+                throw new BadRequestException($"Year already exists");
+            }
 
             Year year = new()
             {
@@ -63,7 +68,7 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Put Update {Institusion} {ID}", y.Name,  id);
 
-            Year year = _context.Years.Where(y => y.Id == id && y.Institution.Id == institutionId).FirstOrDefault() ?? throw new NotFoundException($"Year was not found with Id {id} and InstitutionId {institutionId}");
+            Year year = Get(institutionId, id);
             
             year.Name = y.Name;
 
@@ -77,7 +82,7 @@ namespace CourseSchedule.Core
         {
             _logger.LogInformation("Delete Year {ID}", id);
 
-            Year year = _context.Years.Where(y => y.Id == id && y.Institution.Id == institutionId).FirstOrDefault() ?? throw new NotFoundException($"Year was not found with Id {id} and InstitutionId {institutionId}");
+            Year year = Get(institutionId, id);
 
             _context.Remove(year);
             _context.SaveChanges();
